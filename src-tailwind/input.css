@@ -38,3 +38,79 @@ body {
         radial-gradient(rgba(255,255,255,0.18) 0.5px, transparent 0.5px);
     background-size: 8px 8px;
 }
+
+#iss-map {
+    width: 100%;
+    height: 580px;
+    background: #05090d;
+}
+
+.leaflet-container {
+    background: #05090d;
+    font-family: inherit;
+}
+
+.leaflet-control-zoom a {
+    background: #080d12 !important;
+    color: #8ed4f3 !important;
+    border-color: #19252c !important;
+}
+
+.leaflet-control-attribution {
+    background: rgba(5, 8, 12, 0.85) !important;
+    color: #52636c !important;
+}
+
+.leaflet-control-attribution a {
+    color: #8ed4f3 !important;
+}
+
+.iss-marker {
+    position: relative;
+    width: 60px;
+    height: 40px;
+}
+
+.iss-marker-core {
+    position: absolute;
+    left: 14px;
+    top: 14px;
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    background: #8ed4f3;
+    box-shadow: 0 0 18px rgba(142, 212, 243, 0.9);
+}
+
+.iss-marker-ring {
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    width: 26px;
+    height: 26px;
+    border: 1px solid rgba(142, 212, 243, 0.45);
+    border-radius: 9999px;
+    animation: iss-pulse 2s infinite;
+}
+
+.iss-marker span {
+    position: absolute;
+    left: 40px;
+    top: 10px;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: #8ed4f3;
+}
+
+@keyframes iss-pulse {
+    0% {
+        transform: scale(0.7);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
