@@ -1,0 +1,30 @@
+cat > src/main/resources/static/index.html <<'EOF'
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISS Live Tracker</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="min-h-screen bg-slate-950 text-white">
+    <main class="flex min-h-screen items-center justify-center p-8">
+        <section class="text-center">
+            <p class="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
+                Live orbital monitoring
+            </p>
+            <h1 class="text-5xl font-bold tracking-tight">
+                ISS Live Tracker
+            </h1>
+            <p class="mx-auto mt-5 max-w-xl text-lg text-slate-400">
+                Real-time International Space Station coordinates, altitude, velocity and orbital position.
+            </p>
+            <div class="mt-8 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-400">
+                <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+                Tracker ready
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+EOF
