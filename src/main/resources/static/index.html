@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,14 @@
     <title>ISS Live Tracker</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
+
 <body class="min-h-screen bg-[#02060b] font-mono text-slate-200">
     <div class="star-field min-h-screen">
         <header class="border-b border-cyan-950/80 bg-[#03080d]/95">
             <div class="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-4">
                 <div class="flex items-center gap-5">
-                    <div class="relative flex h-12 w-12 items-center justify-center border border-cyan-700/60 bg-cyan-950/20">
+                    <div
+                        class="relative flex h-12 w-12 items-center justify-center border border-cyan-700/60 bg-cyan-950/20">
                         <div class="absolute h-6 w-6 rounded-full border border-cyan-400/80"></div>
                         <div class="absolute h-px w-9 rotate-45 bg-cyan-500/70"></div>
                         <div class="absolute h-px w-9 -rotate-45 bg-cyan-500/70"></div>
@@ -23,7 +26,8 @@
                             <h1 class="text-lg font-bold tracking-[0.16em] text-white">
                                 ISS LIVE TRACKER
                             </h1>
-                            <span class="border border-cyan-800/70 px-2 py-0.5 text-[10px] tracking-[0.2em] text-cyan-400">
+                            <span
+                                class="border border-cyan-800/70 px-2 py-0.5 text-[10px] tracking-[0.2em] text-cyan-400">
                                 ISS-25544
                             </span>
                         </div>
@@ -56,7 +60,8 @@
         </header>
 
         <main class="mx-auto max-w-[1600px] px-6 py-6">
-            <div class="mb-5 flex flex-col justify-between gap-4 border-b border-slate-800/80 pb-5 lg:flex-row lg:items-end">
+            <div
+                class="mb-5 flex flex-col justify-between gap-4 border-b border-slate-800/80 pb-5 lg:flex-row lg:items-end">
                 <div>
                     <p class="text-[10px] font-semibold uppercase tracking-[0.28em] text-cyan-500">
                         Mission control / orbital monitor
@@ -166,17 +171,21 @@
                         <div class="absolute bottom-4 left-4 text-[9px] tracking-[0.14em] text-slate-700">
                             90°S
                         </div>
-                        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-[9px] tracking-[0.14em] text-slate-700">
+                        <div
+                            class="absolute bottom-4 left-1/2 -translate-x-1/2 text-[9px] tracking-[0.14em] text-slate-700">
                             0°
                         </div>
 
                         <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="relative flex h-64 w-64 items-center justify-center rounded-full border border-cyan-900/60">
+                            <div
+                                class="relative flex h-64 w-64 items-center justify-center rounded-full border border-cyan-900/60">
                                 <div class="absolute h-[80%] w-[80%] rounded-full border border-cyan-950"></div>
                                 <div class="absolute h-px w-full bg-cyan-950"></div>
                                 <div class="absolute h-full w-px bg-cyan-950"></div>
 
-                                <div class="absolute h-3 w-3 rotate-45 bg-cyan-300 shadow-[0_0_18px_rgba(103,232,249,.85)]"></div>
+                                <div
+                                    class="absolute h-3 w-3 rotate-45 bg-cyan-300 shadow-[0_0_18px_rgba(103,232,249,.85)]">
+                                </div>
                                 <div class="absolute h-px w-24 -rotate-12 bg-cyan-500/50"></div>
 
                                 <span class="absolute -bottom-8 text-[10px] uppercase tracking-[0.2em] text-cyan-700">
@@ -186,7 +195,8 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-3 border-t border-slate-800 bg-[#03080d] text-[10px] uppercase tracking-[0.15em]">
+                    <div
+                        class="grid grid-cols-3 border-t border-slate-800 bg-[#03080d] text-[10px] uppercase tracking-[0.15em]">
                         <div class="border-r border-slate-800 px-4 py-3 text-slate-600">
                             Projection <span class="ml-2 text-slate-400">Mercator</span>
                         </div>
@@ -276,11 +286,14 @@
         </main>
 
         <footer class="mt-8 border-t border-slate-900 bg-[#02060b]">
-            <div class="mx-auto flex max-w-[1600px] flex-col justify-between gap-2 px-6 py-4 text-[10px] uppercase tracking-[0.16em] text-slate-700 sm:flex-row">
+            <div
+                class="mx-auto flex max-w-[1600px] flex-col justify-between gap-2 px-6 py-4 text-[10px] uppercase tracking-[0.16em] text-slate-700 sm:flex-row">
                 <span>ISS LIVE TRACKER // ORBITAL MONITORING SYSTEM</span>
                 <span>KOTLIN / KTOR / TAILWIND CSS</span>
             </div>
         </footer>
     </div>
+    <script src="/js/tracker.js"></script>
 </body>
+
 </html>
