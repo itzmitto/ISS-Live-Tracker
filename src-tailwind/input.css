@@ -2,47 +2,39 @@
 
 :root {
     color-scheme: dark;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    background: #05080c;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 html {
-    background: #02060b;
+    background: #05080c;
 }
 
 body {
     margin: 0;
     min-height: 100vh;
     background:
-        radial-gradient(circle at 15% 20%, rgba(14, 116, 144, 0.08), transparent 25%),
-        radial-gradient(circle at 80% 70%, rgba(8, 47, 73, 0.12), transparent 30%),
-        #02060b;
+        radial-gradient(circle at 50% -10%, rgba(35, 93, 128, 0.12), transparent 35%),
+        #05080c;
 }
 
-.space-grid {
-    background-image:
-        linear-gradient(rgba(34, 211, 238, 0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(34, 211, 238, 0.035) 1px, transparent 1px);
-    background-size: 40px 40px;
-}
-
-.star-field {
-    background-image:
-        radial-gradient(circle at 10% 20%, rgba(255,255,255,.75) 0 1px, transparent 1px),
-        radial-gradient(circle at 32% 68%, rgba(255,255,255,.5) 0 1px, transparent 1px),
-        radial-gradient(circle at 58% 24%, rgba(255,255,255,.65) 0 1px, transparent 1px),
-        radial-gradient(circle at 76% 54%, rgba(255,255,255,.45) 0 1px, transparent 1px),
-        radial-gradient(circle at 92% 16%, rgba(255,255,255,.7) 0 1px, transparent 1px),
-        radial-gradient(circle at 18% 82%, rgba(255,255,255,.4) 0 1px, transparent 1px);
-    background-size: 310px 260px;
-}
-
-.telemetry-value {
+.telemetry {
     font-variant-numeric: tabular-nums;
 }
 
-.scanline {
-    background: linear-gradient(
-        transparent 50%,
-        rgba(34, 211, 238, 0.018) 50%
-    );
-    background-size: 100% 4px;
+.map-grid {
+    background-image:
+        linear-gradient(rgba(120, 150, 170, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(120, 150, 170, 0.045) 1px, transparent 1px);
+    background-size: 48px 48px;
+}
+
+.noise {
+    background-image:
+        radial-gradient(rgba(255,255,255,0.18) 0.5px, transparent 0.5px);
+    background-size: 8px 8px;
 }
