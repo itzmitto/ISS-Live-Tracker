@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ISS mission information and live orbital telemetry">
+    <title>ISS Mission Information</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="min-h-screen bg-[#edf4f9] text-[#173b59]">
+    <header class="border-b border-[#d7e2eb] bg-white">
+        <div class="mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-5 px-6 py-5">
+            <a href="/" class="text-sm font-bold tracking-[0.16em] text-[#173b59]">
+                ISS LIVE TRACKER
+            </a>
+            <nav class="flex flex-wrap items-center gap-6 text-xs font-semibold uppercase tracking-[0.1em]">
+                <a href="/" class="text-[#587388] hover:text-[#0a6ea8]">Live Tracking</a>
+                <a href="/mission.html" aria-current="page" class="border-b-2 border-[#0a6ea8] pb-2 text-[#0a6ea8]">Mission</a>
+            </nav>
+            <span id="mission-link-status" class="text-xs font-semibold text-[#587388]">
+                CONNECTING
+            </span>
+        </div>
+    </header>
+
+    <main class="mx-auto max-w-[1500px] px-6 py-10">
+        <section class="border-b border-[#d7e2eb] pb-10">
+            <p class="text-xs font-bold uppercase tracking-[0.22em] text-[#0a6ea8]">
+                SPACECRAFT / MISSION PROFILE
+            </p>
+            <h1 id="mission-name" class="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-[#173b59] md:text-5xl">
+                International Space Station
+            </h1>
+            <p id="mission-description" class="mt-5 max-w-2xl text-base leading-8 text-[#587388]">
+                An international research laboratory operating in low Earth orbit.
+            </p>
+        </section>
+
+        <section class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-[0.14em] text-[#587388]">NORAD ID</p>
+                <p id="mission-catalog" class="mt-4 font-mono text-3xl font-semibold text-[#173b59]">25544</p>
+                <p class="mt-3 text-xs text-[#587388]">Satellite catalog identifier</p>
+            </article>
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-[0.14em] text-[#587388]">Orbital Inclination</p>
+                <p id="mission-inclination" class="mt-4 font-mono text-3xl font-semibold text-[#0a6ea8]">51.6°</p>
+                <p class="mt-3 text-xs text-[#587388]">Approximate inclination</p>
+            </article>
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-[0.14em] text-[#587388]">Orbital Period</p>
+                <p id="mission-period" class="mt-4 font-mono text-3xl font-semibold text-[#0a6ea8]">~90 MIN</p>
+                <p class="mt-3 text-xs text-[#587388]">Approximate time per orbit</p>
+            </article>
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-[0.14em] text-[#587388]">Mission Status</p>
+                <p id="mission-status" class="mt-4 text-2xl font-semibold text-[#168259]">Operational</p>
+                <p class="mt-3 text-xs text-[#587388]">Mission profile information</p>
+            </article>
+        </section>
+
+        <section class="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
+            <article class="border border-[#d7e2eb] bg-white">
+                <div class="border-b border-[#d7e2eb] px-6 py-5">
+                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[#0a6ea8]">
+                        Spacecraft Overview
+                    </p>
+                    <h2 class="mt-2 text-2xl font-semibold text-[#173b59]">
+                        A laboratory above Earth
+                    </h2>
+                </div>
+
+                <div class="space-y-7 p-6">
+                    <div>
+                        <h3 class="text-sm font-semibold text-[#173b59]">International Collaboration</h3>
+                        <p class="mt-2 text-sm leading-7 text-[#587388]">
+                            The International Space Station is a collaborative project
+                            involving NASA, Roscosmos, ESA, JAXA and CSA.
+                        </p>
+                    </div>
+
+                    <div class="border-t border-[#e0eaf1] pt-6">
+                        <h3 class="text-sm font-semibold text-[#173b59]">Scientific Research</h3>
+                        <p class="mt-2 text-sm leading-7 text-[#587388]">
+                            The orbiting laboratory supports research in microgravity,
+                            human biology, materials science and technology development.
+                        </p>
+                    </div>
+
+                    <div class="border-t border-[#e0eaf1] pt-6">
+                        <h3 class="text-sm font-semibold text-[#173b59]">Low Earth Orbit</h3>
+                        <p class="mt-2 text-sm leading-7 text-[#587388]">
+                            The ISS travels around Earth approximately every 90 minutes.
+                            Its altitude and velocity change over time.
+                        </p>
+                    </div>
+
+                    <div class="border-t border-[#e0eaf1] pt-6">
+                        <h3 class="text-sm font-semibold text-[#173b59]">Mission Purpose</h3>
+                        <p id="mission-type" class="mt-2 text-sm leading-7 text-[#587388]">
+                            Orbital Research Laboratory
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <aside class="space-y-6">
+                <section class="border border-[#d7e2eb] bg-white">
+                    <div class="border-b border-[#d7e2eb] px-6 py-5">
+                        <h2 class="text-sm font-semibold uppercase tracking-[0.14em] text-[#173b59]">
+                            Live Orbital Telemetry
+                        </h2>
+                        <p class="mt-2 text-xs text-[#587388]">
+                            Updated from the Kotlin tracking API
+                        </p>
+                    </div>
+
+                    <div class="divide-y divide-[#e0eaf1] px-6">
+                        <div class="flex justify-between gap-4 py-5">
+                            <span class="text-sm text-[#587388]">Latitude</span>
+                            <span id="mission-latitude" class="font-mono text-sm text-[#0a6ea8]">--</span>
+                        </div>
+                        <div class="flex justify-between gap-4 py-5">
+                            <span class="text-sm text-[#587388]">Longitude</span>
+                            <span id="mission-longitude" class="font-mono text-sm text-[#0a6ea8]">--</span>
+                        </div>
+                        <div class="flex justify-between gap-4 py-5">
+                            <span class="text-sm text-[#587388]">Altitude</span>
+                            <span id="mission-altitude" class="font-mono text-sm text-[#0a6ea8]">--</span>
+                        </div>
+                        <div class="flex justify-between gap-4 py-5">
+                            <span class="text-sm text-[#587388]">Velocity</span>
+                            <span id="mission-velocity" class="font-mono text-sm text-[#0a6ea8]">--</span>
+                        </div>
+                        <div class="flex justify-between gap-4 py-5">
+                            <span class="text-sm text-[#587388]">Visibility</span>
+                            <span id="mission-visibility" class="font-mono text-sm text-[#0a6ea8]">--</span>
+                        </div>
+                        <div class="flex justify-between gap-4 py-5">
+                            <span class="text-sm text-[#587388]">Last Update</span>
+                            <span id="mission-updated" class="font-mono text-sm text-[#0a6ea8]">WAITING</span>
+                        </div>
+                    </div>
+                </section>
+
+                <a href="/" class="block bg-[#176a9c] px-6 py-4 text-center text-sm font-semibold text-white hover:bg-[#105580]">
+                    Open Live ISS Tracker
+                </a>
+            </aside>
+        </section>
+
+        <footer class="mt-12 border-t border-[#d7e2eb] py-6 text-xs text-[#587388]">
+            ISS Live Tracker — Independent educational project.
+            Not affiliated with or endorsed by NASA or other space agencies.
+        </footer>
+    </main>
+
+    <script src="/js/mission.js"></script>
+</body>
+</html>

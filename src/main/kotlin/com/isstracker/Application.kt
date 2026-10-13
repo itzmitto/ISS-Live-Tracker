@@ -1,6 +1,7 @@
 package com.isstracker
 
 import com.isstracker.routes.issRoutes
+import com.isstracker.routes.missionRoutes
 import com.isstracker.services.IssService
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.install
@@ -30,6 +31,7 @@ fun main() {
 
         routing {
             issRoutes(issService)
+            missionRoutes()
             staticResources("/", "static", index = "index.html")
         }
     }.start(wait = true)
