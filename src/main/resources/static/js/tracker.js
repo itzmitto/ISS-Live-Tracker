@@ -28,6 +28,11 @@ async function updateIssTelemetry() {
 
         const data = await response.json();
 
+        if (window.updateIssCoverage) {
+            window.updateIssCoverage(data);
+        }
+
+
         if (window.recordIssChartSample) {
             window.recordIssChartSample(data);
         }

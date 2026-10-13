@@ -236,6 +236,46 @@
                             </button>
                         </div>
                         <div id="iss-map"></div>
+<div id="coverage-panel" class="coverage-panel">
+    <div class="coverage-header">
+        <div>
+            <p class="coverage-label">SATELLITE / GROUND COVERAGE</p>
+            <h3 class="coverage-title">ISS Visibility Footprint</h3>
+            <p class="coverage-description">
+                Estimated geometric line-of-sight coverage.
+                Actual sightings depend on lighting, weather and local conditions.
+            </p>
+        </div>
+        <div class="coverage-actions">
+            <button id="coverage-toggle" type="button" aria-pressed="true">
+                Hide Coverage
+            </button>
+            <button id="coverage-focus" type="button">
+                Focus Coverage
+            </button>
+        </div>
+    </div>
+
+    <div class="coverage-metrics">
+        <div class="coverage-metric">
+            <span>FOOTPRINT DIAMETER</span>
+            <strong id="coverage-diameter">-- KM</strong>
+        </div>
+        <div class="coverage-metric">
+            <span>COVERAGE RADIUS</span>
+            <strong id="coverage-radius">-- KM</strong>
+        </div>
+        <div class="coverage-metric">
+            <span>APPROX. SURFACE AREA</span>
+            <strong id="coverage-area">-- KM²</strong>
+        </div>
+        <div class="coverage-metric">
+            <span>MAP OVERLAY</span>
+            <strong id="coverage-status">WAITING</strong>
+        </div>
+    </div>
+</div>
+
                     </div>
 
                     <div
@@ -503,7 +543,8 @@
     <script src="/js/mapControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
     <script src="/js/telemetryCharts.js"></script>
-    <script src="/js/tracker.js"></script>
+    <script src="/js/groundCoverage.js"></script>
+<script src="/js/tracker.js"></script>
 </body>
 
 </html>
