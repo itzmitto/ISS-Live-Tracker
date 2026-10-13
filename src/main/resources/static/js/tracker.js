@@ -27,6 +27,11 @@ async function updateIssTelemetry() {
         }
 
         const data = await response.json();
+
+        if (window.recordIssChartSample) {
+            window.recordIssChartSample(data);
+        }
+
         const latency = Math.round(performance.now() - requestStarted);
 
         latitudeElement.textContent =

@@ -135,3 +135,9 @@ function updateIssMap(latitude, longitude) {
 }
 
 window.updateIssMap = updateIssMap;
+
+window.issMapApi = {
+    map,
+    getCurrentPosition: () => currentPosition,
+    getTrailLayers: () => [...trailSegments, currentTrail]
+};
