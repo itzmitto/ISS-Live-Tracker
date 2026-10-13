@@ -47,6 +47,10 @@ class IssService {
         position
     }
 
+    fun getHistory(limit: Int): List<IssPosition> {
+        return statistics.history(limit)
+    }
+
     fun getStatistics(): IssStatistics {
         return statistics.snapshot()
     }

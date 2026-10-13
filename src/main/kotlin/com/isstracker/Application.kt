@@ -1,6 +1,7 @@
 package com.isstracker
 
 import com.isstracker.routes.issRoutes
+import com.isstracker.routes.issHistoryRoutes
 import com.isstracker.routes.issStatisticsRoutes
 import com.isstracker.routes.missionRoutes
 import com.isstracker.services.IssService
@@ -32,6 +33,7 @@ fun main() {
 
         routing {
             issRoutes(issService)
+            issHistoryRoutes(issService)
             issStatisticsRoutes(issService)
             missionRoutes()
             staticResources("/", "static", index = "index.html")

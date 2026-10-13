@@ -71,6 +71,11 @@ class IssStatisticsService {
         )
     }
 
+    @Synchronized
+    fun history(limit: Int): List<IssPosition> {
+        return positions.toList().takeLast(limit.coerceIn(1, 300))
+    }
+
     private fun distanceBetween(
         lat1: Double,
         lon1: Double,

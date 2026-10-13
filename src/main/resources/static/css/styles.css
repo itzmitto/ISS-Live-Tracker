@@ -11,6 +11,7 @@
     --color-white: #fff;
     --spacing: 0.25rem;
     --container-2xl: 42rem;
+    --container-3xl: 48rem;
     --container-4xl: 56rem;
     --text-xs: 0.75rem;
     --text-xs--line-height: calc(1 / 0.75);
@@ -291,8 +292,14 @@
   .h-\[270px\] {
     height: 270px;
   }
+  .h-\[300px\] {
+    height: 300px;
+  }
   .max-h-\[430px\] {
     max-height: 430px;
+  }
+  .max-h-\[540px\] {
+    max-height: 540px;
   }
   .min-h-screen {
     min-height: 100vh;
@@ -321,6 +328,9 @@
   .max-w-2xl {
     max-width: var(--container-2xl);
   }
+  .max-w-3xl {
+    max-width: var(--container-3xl);
+  }
   .max-w-4xl {
     max-width: var(--container-4xl);
   }
@@ -335,6 +345,9 @@
   }
   .min-w-\[850px\] {
     min-width: 850px;
+  }
+  .min-w-\[900px\] {
+    min-width: 900px;
   }
   .-translate-x-1\/2 {
     --tw-translate-x: calc(calc(1 / 2 * 100%) * -1);
@@ -420,6 +433,9 @@
   .overflow-auto {
     overflow: auto;
   }
+  .overflow-hidden {
+    overflow: hidden;
+  }
   .border {
     border-style: var(--tw-border-style);
     border-width: 1px;
@@ -455,6 +471,9 @@
   .border-\[\#c4d9e8\] {
     border-color: #c4d9e8;
   }
+  .border-\[\#cbdce8\] {
+    border-color: #cbdce8;
+  }
   .border-\[\#cfdee9\] {
     border-color: #cfdee9;
   }
@@ -469,6 +488,9 @@
   }
   .border-\[\#e0eaf1\] {
     border-color: #e0eaf1;
+  }
+  .border-\[\#e2ebf1\] {
+    border-color: #e2ebf1;
   }
   .bg-\[\#1d2930\] {
     background-color: #1d2930;
@@ -488,11 +510,17 @@
   .bg-\[\#d7e2eb\] {
     background-color: #d7e2eb;
   }
+  .bg-\[\#eaf2f8\] {
+    background-color: #eaf2f8;
+  }
   .bg-\[\#eaf4f9\] {
     background-color: #eaf4f9;
   }
   .bg-\[\#edf4f9\] {
     background-color: #edf4f9;
+  }
+  .bg-\[\#f3f8fc\] {
+    background-color: #f3f8fc;
   }
   .bg-\[\#f5f9fc\] {
     background-color: #f5f9fc;
@@ -538,6 +566,9 @@
   }
   .py-7 {
     padding-block: calc(var(--spacing) * 7);
+  }
+  .py-8 {
+    padding-block: calc(var(--spacing) * 8);
   }
   .py-10 {
     padding-block: calc(var(--spacing) * 10);
@@ -660,6 +691,10 @@
   .tracking-\[0\.12em\] {
     --tw-tracking: 0.12em;
     letter-spacing: 0.12em;
+  }
+  .tracking-\[0\.13em\] {
+    --tw-tracking: 0.13em;
+    letter-spacing: 0.13em;
   }
   .tracking-\[0\.14em\] {
     --tw-tracking: 0.14em;
@@ -788,6 +823,12 @@
     }
     .hover\:bg-\[\#105580\]:hover {
       background-color: #105580;
+    }
+    .hover\:bg-\[\#e2f0fa\]:hover {
+      background-color: #e2f0fa;
+    }
+    .hover\:bg-\[\#f3f8fc\]:hover {
+      background-color: #f3f8fc;
     }
     .hover\:text-\[\#0a6ea8\]:hover {
       color: #0a6ea8;
