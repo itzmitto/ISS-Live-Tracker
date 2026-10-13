@@ -360,7 +360,52 @@
 
             </section>
 
-        </main>
+    
+        <section id="ground-track-history" class="mt-6 border border-[#19252c] bg-[#080d12]">
+            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[#19252c] px-6 py-5">
+                <div>
+                    <p class="text-[10px] uppercase tracking-[0.2em] text-[#5687a2]">
+                        Orbital tracking / position log
+                    </p>
+                    <h3 class="mt-2 text-lg font-medium text-[#e2eaf0]">
+                        Recent Ground Track
+                    </h3>
+                    <p class="mt-1 text-xs text-[#52636c]">
+                        Latest recorded ISS coordinates from this session.
+                    </p>
+                </div>
+                <div class="flex gap-8">
+                    <div>
+                        <p class="text-[9px] uppercase tracking-[0.16em] text-[#52636c]">Points</p>
+                        <p id="history-count" class="mt-2 font-mono text-lg text-[#8ed4f3]">0</p>
+                    </div>
+                    <div>
+                        <p class="text-[9px] uppercase tracking-[0.16em] text-[#52636c]">Latest UTC</p>
+                        <p id="history-latest" class="mt-2 font-mono text-sm text-[#8ed4f3]">WAITING</p>
+                    </div>
+                </div>
+            </div>
+            <div class="max-h-[430px] overflow-auto">
+                <table class="w-full min-w-[850px] text-left">
+                    <thead class="sticky top-0 bg-[#0c141a]">
+                        <tr class="text-[10px] uppercase tracking-[0.12em] text-[#60717b]">
+                            <th class="px-5 py-4">#</th>
+                            <th class="px-5 py-4">UTC Time</th>
+                            <th class="px-5 py-4">Latitude</th>
+                            <th class="px-5 py-4">Longitude</th>
+                            <th class="px-5 py-4">Altitude</th>
+                            <th class="px-5 py-4">Velocity</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-body"></tbody>
+                </table>
+            </div>
+            <div class="border-t border-[#19252c] px-6 py-3 text-[10px] tracking-[0.1em] text-[#52636c]">
+                LIVE SESSION HISTORY / MAXIMUM 30 POSITIONS
+            </div>
+        </section>
+
+    </main>
 
         <footer class="mt-10 border-t border-[#141e24]">
             <div
@@ -374,7 +419,8 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="/js/map.js"></script>
-    <script src="/js/tracker.js"></script>
+    <script src="/js/history.js"></script>
+<script src="/js/tracker.js"></script>
 </body>
 
 </html>
