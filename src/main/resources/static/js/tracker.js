@@ -9,7 +9,12 @@ const footprintElement = document.getElementById("footprint");
 const apiLatencyElement = document.getElementById("api-latency");
 const apiStatusElement = document.getElementById("api-status");
 
+let requestInProgress = false;
+
 async function updateIssTelemetry() {
+    if (requestInProgress) return;
+
+    requestInProgress = true;
     const requestStarted = performance.now();
 
     try {
@@ -24,17 +29,24 @@ async function updateIssTelemetry() {
         const data = await response.json();
         const latency = Math.round(performance.now() - requestStarted);
 
-        if (window.updateIssMap) {
-            window.updateIssMap(data.latitude, data.longitude);
-        }
+        latitudeElement.textContent =
+            `${data.latitude.toFixed(4)}°`;
 
-        latitudeElement.textContent = `${data.latitude.toFixed(4)}°`;
-        longitudeElement.textContent = `${data.longitude.toFixed(4)}°`;
-        altitudeElement.textContent = `${data.altitude.toFixed(2)} KM`;
-        velocityElement.textContent = `${Math.round(data.velocity)} KM/H`;
+        longitudeElement.textContent =
+            `${data.longitude.toFixed(4)}°`;
 
-        visibilityElement.textContent = data.visibility.toUpperCase();
-        footprintElement.textContent = `${data.footprint.toFixed(2)} KM`;
+        altitudeElement.textContent =
+            `${data.altitude.toFixed(2)} KM`;
+
+        velocityElement.textContent =
+            `${Math.round(data.velocity)} KM/H`;
+
+        visibilityElement.textContent =
+            data.visibility.toUpperCase();
+
+        footprintElement.textContent =
+            `${data.footprint.toFixed(2)} KM`;
+
         apiLatencyElement.textContent = `${latency} MS`;
         apiStatusElement.textContent = "ONLINE";
 
@@ -48,12 +60,22 @@ async function updateIssTelemetry() {
                 second: "2-digit",
                 hour12: false
             })} UTC`;
+
+        if (window.updateIssMap) {
+            window.updateIssMap(data.latitude, data.longitude);
+        }
+
+        if (window.recordIssPosition) {
+            window.recordIssPosition(data);
+        }
     } catch (error) {
         console.error("Unable to update ISS telemetry:", error);
 
         apiStatusElement.textContent = "ERROR";
         apiLatencyElement.textContent = "--";
         lastUpdateElement.textContent = "CONNECTION ERROR";
+    } finally {
+        requestInProgress = false;
     }
 }
 
