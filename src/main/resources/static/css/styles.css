@@ -372,32 +372,29 @@
     border-bottom-style: var(--tw-border-style);
     border-bottom-width: 1px;
   }
-  .border-\[\#1a252d\] {
-    border-color: #1a252d;
-  }
-  .border-\[\#141e24\] {
-    border-color: #141e24;
+  .border-\[\#8caec5\] {
+    border-color: #8caec5;
   }
   .border-\[\#19252c\] {
     border-color: #19252c;
   }
-  .border-\[\#24323a\] {
-    border-color: #24323a;
+  .border-\[\#c1d4e2\] {
+    border-color: #c1d4e2;
   }
-  .border-\[\#172128\] {
-    border-color: #172128;
+  .border-\[\#c4d9e8\] {
+    border-color: #c4d9e8;
   }
-  .border-\[\#273944\] {
-    border-color: #273944;
+  .border-\[\#cfdee9\] {
+    border-color: #cfdee9;
   }
-  .border-\[\#355366\] {
-    border-color: #355366;
+  .border-\[\#d2e0e9\] {
+    border-color: #d2e0e9;
   }
-  .bg-\[\#0a1015\] {
-    background-color: #0a1015;
+  .border-\[\#d7e2eb\] {
+    border-color: #d7e2eb;
   }
-  .bg-\[\#0c141a\] {
-    background-color: #0c141a;
+  .border-\[\#d9e5ed\] {
+    border-color: #d9e5ed;
   }
   .bg-\[\#1d2930\] {
     background-color: #1d2930;
@@ -405,29 +402,26 @@
   .bg-\[\#5eb6df\] {
     background-color: #5eb6df;
   }
-  .bg-\[\#060b0f\] {
-    background-color: #060b0f;
-  }
   .bg-\[\#65ca92\] {
     background-color: #65ca92;
   }
-  .bg-\[\#070b10\] {
-    background-color: #070b10;
-  }
-  .bg-\[\#070c11\] {
-    background-color: #070c11;
-  }
-  .bg-\[\#080d12\] {
-    background-color: #080d12;
-  }
-  .bg-\[\#05080c\] {
-    background-color: #05080c;
-  }
-  .bg-\[\#19252c\] {
-    background-color: #19252c;
-  }
   .bg-\[\#355366\] {
     background-color: #355366;
+  }
+  .bg-\[\#d7e2eb\] {
+    background-color: #d7e2eb;
+  }
+  .bg-\[\#eaf4f9\] {
+    background-color: #eaf4f9;
+  }
+  .bg-\[\#edf4f9\] {
+    background-color: #edf4f9;
+  }
+  .bg-\[\#f5f9fc\] {
+    background-color: #f5f9fc;
+  }
+  .bg-\[\#ffffff\] {
+    background-color: #ffffff;
   }
   .p-5 {
     padding: calc(var(--spacing) * 5);
@@ -561,92 +555,74 @@
   .whitespace-nowrap {
     white-space: nowrap;
   }
-  .text-\[\#3f4e57\] {
-    color: #3f4e57;
+  .text-\[\#0a6ea8\] {
+    color: #0a6ea8;
   }
-  .text-\[\#4d606b\] {
-    color: #4d606b;
+  .text-\[\#4d6c80\] {
+    color: #4d6c80;
   }
-  .text-\[\#4f606a\] {
-    color: #4f606a;
+  .text-\[\#6c8597\] {
+    color: #6c8597;
   }
   .text-\[\#8ed4f3\] {
     color: #8ed4f3;
   }
+  .text-\[\#9a642b\] {
+    color: #9a642b;
+  }
   .text-\[\#9daeb8\] {
     color: #9daeb8;
   }
-  .text-\[\#65ca92\] {
-    color: #65ca92;
+  .text-\[\#173b52\] {
+    color: #173b52;
   }
-  .text-\[\#355a70\] {
-    color: #355a70;
+  .text-\[\#176a9c\] {
+    color: #176a9c;
   }
-  .text-\[\#725e3d\] {
-    color: #725e3d;
+  .text-\[\#213c50\] {
+    color: #213c50;
   }
-  .text-\[\#5687a2\] {
-    color: #5687a2;
+  .text-\[\#246b98\] {
+    color: #246b98;
   }
-  .text-\[\#7592a2\] {
-    color: #7592a2;
+  .text-\[\#306e95\] {
+    color: #306e95;
   }
-  .text-\[\#35444d\] {
-    color: #35444d;
+  .text-\[\#647f91\] {
+    color: #647f91;
   }
-  .text-\[\#45545d\] {
-    color: #45545d;
+  .text-\[\#657f90\] {
+    color: #657f90;
+  }
+  .text-\[\#16344b\] {
+    color: #16344b;
+  }
+  .text-\[\#21445c\] {
+    color: #21445c;
+  }
+  .text-\[\#27678e\] {
+    color: #27678e;
+  }
+  .text-\[\#35546b\] {
+    color: #35546b;
+  }
+  .text-\[\#36576e\] {
+    color: #36576e;
+  }
+  .text-\[\#47687c\] {
+    color: #47687c;
   }
   .text-\[\#52636c\] {
     color: #52636c;
   }
-  .text-\[\#60717b\] {
-    color: #60717b;
+  .text-\[\#168259\] {
+    color: #168259;
   }
-  .text-\[\#62737d\] {
-    color: #62737d;
+  .text-\[\#587388\] {
+    color: #587388;
   }
-  .text-\[\#68808d\] {
-    color: #68808d;
-  }
-  .text-\[\#73838c\] {
-    color: #73838c;
-  }
-  .text-\[\#75848c\] {
-    color: #75848c;
-  }
-  .text-\[\#556772\] {
-    color: #556772;
-  }
-  .text-\[\#566770\] {
-    color: #566770;
-  }
-  .text-\[\#a4b1b8\] {
-    color: #a4b1b8;
-  }
-  .text-\[\#a6b4bc\] {
-    color: #a6b4bc;
-  }
-  .text-\[\#a7b4bb\] {
-    color: #a7b4bb;
-  }
-  .text-\[\#bac6cc\] {
-    color: #bac6cc;
-  }
-  .text-\[\#d9e2e8\] {
-    color: #d9e2e8;
-  }
-  .text-\[\#e2eaf0\] {
-    color: #e2eaf0;
-  }
-  .text-\[\#e3bc76\] {
-    color: #e3bc76;
-  }
-  .text-\[\#f2f6f8\] {
-    color: #f2f6f8;
-  }
-  .text-white {
-    color: var(--color-white);
+  .text-\[\#a3651b\] {
+    color: #a3651b;
   }
   .uppercase {
     text-transform: uppercase;
@@ -782,6 +758,58 @@ body {
     transform: scale(1.5);
     opacity: 0;
   }
+}
+:root {
+  color-scheme: light;
+  --mission-background: #edf4f9;
+  --mission-surface: #ffffff;
+  --mission-navy: #173b59;
+  --mission-blue: #0a6ea8;
+  --mission-border: #d7e2eb;
+  --mission-muted: #587388;
+}
+html {
+  background: var(--mission-background);
+}
+body {
+  background: linear-gradient( 180deg, #f8fbfe 0%, #edf4f9 55%, #e8f1f8 100% );
+  color: var(--mission-navy);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+.telemetry {
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.025em;
+}
+#iss-map, .leaflet-container {
+  background: #e8f1f8;
+}
+.leaflet-control-zoom a {
+  background: #ffffff !important;
+  color: #176a9c !important;
+  border-color: #d7e2eb !important;
+}
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.94) !important;
+  color: #587388 !important;
+}
+.leaflet-control-attribution a {
+  color: #0a6ea8 !important;
+}
+.iss-marker-core {
+  background: #0a6ea8;
+  box-shadow: 0 0 15px rgba(10, 110, 168, 0.4);
+}
+.iss-marker-ring {
+  border-color: rgba(10, 110, 168, 0.45);
+}
+.iss-marker span {
+  color: #0a5d92;
+  font-weight: 700;
+}
+::selection {
+  background: #b9ddf4;
+  color: #16344b;
 }
 @property --tw-translate-x {
   syntax: "*";

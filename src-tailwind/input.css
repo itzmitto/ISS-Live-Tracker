@@ -114,3 +114,73 @@ body {
         opacity: 0;
     }
 }
+
+:root {
+    color-scheme: light;
+    --mission-background: #edf4f9;
+    --mission-surface: #ffffff;
+    --mission-navy: #173b59;
+    --mission-blue: #0a6ea8;
+    --mission-border: #d7e2eb;
+    --mission-muted: #587388;
+}
+
+html {
+    background: var(--mission-background);
+}
+
+body {
+    background: linear-gradient(
+        180deg,
+        #f8fbfe 0%,
+        #edf4f9 55%,
+        #e8f1f8 100%
+    );
+    color: var(--mission-navy);
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+.telemetry {
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.025em;
+}
+
+#iss-map,
+.leaflet-container {
+    background: #e8f1f8;
+}
+
+.leaflet-control-zoom a {
+    background: #ffffff !important;
+    color: #176a9c !important;
+    border-color: #d7e2eb !important;
+}
+
+.leaflet-control-attribution {
+    background: rgba(255, 255, 255, 0.94) !important;
+    color: #587388 !important;
+}
+
+.leaflet-control-attribution a {
+    color: #0a6ea8 !important;
+}
+
+.iss-marker-core {
+    background: #0a6ea8;
+    box-shadow: 0 0 15px rgba(10, 110, 168, 0.4);
+}
+
+.iss-marker-ring {
+    border-color: rgba(10, 110, 168, 0.45);
+}
+
+.iss-marker span {
+    color: #0a5d92;
+    font-weight: 700;
+}
+
+::selection {
+    background: #b9ddf4;
+    color: #16344b;
+}

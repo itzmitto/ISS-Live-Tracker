@@ -31,7 +31,7 @@ let trailSegments = [];
 let currentTrail = L.polyline([], {
     weight: 2,
     opacity: 0.7,
-    color: "#8ed4f3"
+    color: "#1378ad"
 }).addTo(map);
 
 let trailPositions = [];
@@ -100,7 +100,7 @@ function updateTrail(position) {
         currentTrail = L.polyline([], {
             weight: 2,
             opacity: 0.7,
-            color: "#8ed4f3"
+            color: "#1378ad"
         }).addTo(map);
     }
 
