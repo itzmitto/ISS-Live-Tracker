@@ -1,0 +1,11 @@
+*.kt linguist-language=Kotlin
+*.kts linguist-language=Kotlin
+
+*.js linguist-language=JavaScript
+*.html linguist-language=HTML
+*.css linguist-language=CSS
+
+src/main/resources/static/css/styles.css linguist-generated=true
+
+gradlew linguist-generated=true
+gradlew.bat linguist-generated=true
