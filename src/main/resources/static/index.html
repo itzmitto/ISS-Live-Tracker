@@ -207,7 +207,23 @@
                         </div>
                     </div>
 
-                    <div id="iss-map"></div>
+                    <div id="iss-map-stage">
+                        <div class="iss-map-toolbar" role="toolbar" aria-label="ISS map controls">
+                            <button type="button" id="map-follow" class="iss-map-button" aria-pressed="false">
+                                Follow ISS
+                            </button>
+                            <button type="button" id="map-trail" class="iss-map-button" aria-pressed="true">
+                                Hide Trail
+                            </button>
+                            <button type="button" id="map-reset" class="iss-map-button">
+                                Reset Map
+                            </button>
+                            <button type="button" id="map-fullscreen" class="iss-map-button">
+                                Fullscreen
+                            </button>
+                        </div>
+                        <div id="iss-map"></div>
+                    </div>
 
                     <div
                         class="grid grid-cols-3 border-t border-[#d7e2eb] bg-[#f5f9fc] text-[9px] uppercase tracking-[0.14em]">
@@ -311,39 +327,39 @@
 
                     <section class="border border-[#d7e2eb] bg-[#ffffff]">
 
-                    <header class="border-b border-[#d7e2eb] px-5 py-4">
-                        <h3 class="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#47687c]">
-                            Extended telemetry
-                        </h3>
-                    </header>
+                        <header class="border-b border-[#d7e2eb] px-5 py-4">
+                            <h3 class="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#47687c]">
+                                Extended telemetry
+                            </h3>
+                        </header>
 
-                    <div class="divide-y divide-[#141e24] px-5">
+                        <div class="divide-y divide-[#141e24] px-5">
 
-                        <div class="flex justify-between py-4 text-[11px]">
-                            <span class="text-[#587388]">Visibility</span>
-                            <span id="visibility" class="telemetry text-[#0a6ea8]">WAITING</span>
+                            <div class="flex justify-between py-4 text-[11px]">
+                                <span class="text-[#587388]">Visibility</span>
+                                <span id="visibility" class="telemetry text-[#0a6ea8]">WAITING</span>
+                            </div>
+
+                            <div class="flex justify-between py-4 text-[11px]">
+                                <span class="text-[#587388]">Footprint</span>
+                                <span id="footprint" class="telemetry text-[#36576e]">-- KM</span>
+                            </div>
+
+                            <div class="flex justify-between py-4 text-[11px]">
+                                <span class="text-[#587388]">API latency</span>
+                                <span id="api-latency" class="telemetry text-[#36576e]">--</span>
+                            </div>
+
+                            <div class="flex justify-between py-4 text-[11px]">
+                                <span class="text-[#587388]">API status</span>
+                                <span id="api-status" class="telemetry text-[#168259]">CONNECTING</span>
+                            </div>
+
                         </div>
 
-                        <div class="flex justify-between py-4 text-[11px]">
-                            <span class="text-[#587388]">Footprint</span>
-                            <span id="footprint" class="telemetry text-[#36576e]">-- KM</span>
-                        </div>
+                    </section>
 
-                        <div class="flex justify-between py-4 text-[11px]">
-                            <span class="text-[#587388]">API latency</span>
-                            <span id="api-latency" class="telemetry text-[#36576e]">--</span>
-                        </div>
-
-                        <div class="flex justify-between py-4 text-[11px]">
-                            <span class="text-[#587388]">API status</span>
-                            <span id="api-status" class="telemetry text-[#168259]">CONNECTING</span>
-                        </div>
-
-                    </div>
-
-                </section>
-
-                <section class="border border-[#c4d9e8] bg-[#eaf4f9] p-5">
+                    <section class="border border-[#c4d9e8] bg-[#eaf4f9] p-5">
                         <div class="flex items-center gap-2">
                             <span class="h-1.5 w-1.5 bg-[#65ca92]"></span>
                             <p class="text-[9px] font-semibold uppercase tracking-[0.18em] text-[#306e95]">
@@ -360,52 +376,103 @@
 
             </section>
 
-    
-        <section id="ground-track-history" class="mt-6 border border-[#d7e2eb] bg-[#ffffff]">
-            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[#d7e2eb] px-6 py-5">
-                <div>
-                    <p class="text-[10px] uppercase tracking-[0.2em] text-[#176a9c]">
-                        Orbital tracking / position log
-                    </p>
-                    <h3 class="mt-2 text-lg font-medium text-[#173b52]">
-                        Recent Ground Track
-                    </h3>
-                    <p class="mt-1 text-xs text-[#587388]">
-                        Latest recorded ISS coordinates from this session.
-                    </p>
-                </div>
-                <div class="flex gap-8">
-                    <div>
-                        <p class="text-[9px] uppercase tracking-[0.16em] text-[#587388]">Points</p>
-                        <p id="history-count" class="mt-2 font-mono text-lg text-[#0a6ea8]">0</p>
-                    </div>
-                    <div>
-                        <p class="text-[9px] uppercase tracking-[0.16em] text-[#587388]">Latest UTC</p>
-                        <p id="history-latest" class="mt-2 font-mono text-sm text-[#0a6ea8]">WAITING</p>
-                    </div>
-                </div>
-            </div>
-            <div class="max-h-[430px] overflow-auto">
-                <table class="w-full min-w-[850px] text-left">
-                    <thead class="sticky top-0 bg-[#edf4f9]">
-                        <tr class="text-[10px] uppercase tracking-[0.12em] text-[#587388]">
-                            <th class="px-5 py-4">#</th>
-                            <th class="px-5 py-4">UTC Time</th>
-                            <th class="px-5 py-4">Latitude</th>
-                            <th class="px-5 py-4">Longitude</th>
-                            <th class="px-5 py-4">Altitude</th>
-                            <th class="px-5 py-4">Velocity</th>
-                        </tr>
-                    </thead>
-                    <tbody id="history-body"></tbody>
-                </table>
-            </div>
-            <div class="border-t border-[#d7e2eb] px-6 py-3 text-[10px] tracking-[0.1em] text-[#587388]">
-                LIVE SESSION HISTORY / MAXIMUM 30 POSITIONS
-            </div>
-        </section>
 
-    </main>
+            <section id="ground-track-history" class="mt-6 border border-[#d7e2eb] bg-[#ffffff]">
+                <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[#d7e2eb] px-6 py-5">
+                    <div>
+                        <p class="text-[10px] uppercase tracking-[0.2em] text-[#176a9c]">
+                            Orbital tracking / position log
+                        </p>
+                        <h3 class="mt-2 text-lg font-medium text-[#173b52]">
+                            Recent Ground Track
+                        </h3>
+                        <p class="mt-1 text-xs text-[#587388]">
+                            Latest recorded ISS coordinates from this session.
+                        </p>
+                    </div>
+                    <div class="flex gap-8">
+                        <div>
+                            <p class="text-[9px] uppercase tracking-[0.16em] text-[#587388]">Points</p>
+                            <p id="history-count" class="mt-2 font-mono text-lg text-[#0a6ea8]">0</p>
+                        </div>
+                        <div>
+                            <p class="text-[9px] uppercase tracking-[0.16em] text-[#587388]">Latest UTC</p>
+                            <p id="history-latest" class="mt-2 font-mono text-sm text-[#0a6ea8]">WAITING</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="max-h-[430px] overflow-auto">
+                    <table class="w-full min-w-[850px] text-left">
+                        <thead class="sticky top-0 bg-[#edf4f9]">
+                            <tr class="text-[10px] uppercase tracking-[0.12em] text-[#587388]">
+                                <th class="px-5 py-4">#</th>
+                                <th class="px-5 py-4">UTC Time</th>
+                                <th class="px-5 py-4">Latitude</th>
+                                <th class="px-5 py-4">Longitude</th>
+                                <th class="px-5 py-4">Altitude</th>
+                                <th class="px-5 py-4">Velocity</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-body"></tbody>
+                    </table>
+                </div>
+                <div class="border-t border-[#d7e2eb] px-6 py-3 text-[10px] tracking-[0.1em] text-[#587388]">
+                    LIVE SESSION HISTORY / MAXIMUM 30 POSITIONS
+                </div>
+            </section>
+
+
+            <section id="telemetry-charts" class="mt-6">
+                <div class="mb-5 flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] uppercase tracking-[0.2em] text-[#176a9c]">
+                            ISS Analytics / Live Data
+                        </p>
+                        <h2 class="mt-2 text-xl font-semibold text-[#173b59]">
+                            Orbital Telemetry Analytics
+                        </h2>
+                        <p class="mt-2 text-xs text-[#587388]">
+                            Live measurements recorded during this tracking session.
+                        </p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[10px] uppercase text-[#587388]">Samples</p>
+                        <p id="chart-points" class="mt-2 font-mono text-xl text-[#0a6ea8]">0</p>
+                    </div>
+                </div>
+
+                <div class="grid gap-5 lg:grid-cols-2">
+                    <article class="min-w-0 border border-[#d7e2eb] bg-white p-6">
+                        <div class="mb-6">
+                            <h3 class="text-sm font-semibold text-[#173b59]">
+                                Altitude History
+                            </h3>
+                            <p class="mt-1 text-xs text-[#587388]">
+                                ISS altitude above Earth / kilometers
+                            </p>
+                        </div>
+                        <div class="relative h-[270px]">
+                            <canvas id="altitude-chart"></canvas>
+                        </div>
+                    </article>
+
+                    <article class="min-w-0 border border-[#d7e2eb] bg-white p-6">
+                        <div class="mb-6">
+                            <h3 class="text-sm font-semibold text-[#173b59]">
+                                Velocity History
+                            </h3>
+                            <p class="mt-1 text-xs text-[#587388]">
+                                Orbital velocity / kilometers per hour
+                            </p>
+                        </div>
+                        <div class="relative h-[270px]">
+                            <canvas id="velocity-chart"></canvas>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+        </main>
 
         <footer class="mt-10 border-t border-[#d9e5ed]">
             <div
@@ -420,7 +487,10 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="/js/map.js"></script>
     <script src="/js/history.js"></script>
-<script src="/js/tracker.js"></script>
+    <script src="/js/mapControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <script src="/js/telemetryCharts.js"></script>
+    <script src="/js/tracker.js"></script>
 </body>
 
 </html>

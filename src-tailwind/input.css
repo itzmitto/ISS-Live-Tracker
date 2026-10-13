@@ -184,3 +184,67 @@ body {
     background: #b9ddf4;
     color: #16344b;
 }
+
+#iss-map-stage {
+    min-width: 0;
+    background: #ffffff;
+}
+
+.iss-map-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    background: #f6fafc;
+    border-bottom: 1px solid #d7e2eb;
+}
+
+.iss-map-button {
+    padding: 10px 16px;
+    border: 1px solid #cbdce8;
+    background: #ffffff;
+    color: #31546d;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 150ms, border-color 150ms;
+}
+
+.iss-map-button:hover {
+    background: #e5f1f9;
+    border-color: #91bbd5;
+}
+
+.iss-map-button[aria-pressed="true"] {
+    background: #176a9c;
+    border-color: #176a9c;
+    color: #ffffff;
+}
+
+.iss-map-button:focus-visible {
+    outline: 2px solid #176a9c;
+    outline-offset: 2px;
+}
+
+#iss-map-stage:fullscreen {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background: #edf4f9;
+}
+
+#iss-map-stage:fullscreen #iss-map {
+    flex: 1;
+    height: auto;
+    min-height: 0;
+}
+
+@media (max-width: 600px) {
+    .iss-map-button {
+        flex: 1;
+        min-width: 120px;
+    }
+}
