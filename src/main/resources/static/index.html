@@ -74,12 +74,12 @@
             <a href="/" aria-current="page" class="text-[#0a6ea8]">Live Tracking</a>
             <a href="/mission.html" class="text-[#587388] hover:text-[#0a6ea8]">Mission Information</a>
         </div>
-    
+
                 <a href="/statistics.html" class="text-[#587388] hover:text-[#0a6ea8]">
                     Statistics
                 </a>
 
-            
+
                 <a href="/history.html" class="text-[#587388] hover:text-[#0a6ea8]">
                     History
                 </a>
@@ -225,7 +225,72 @@
                         </div>
                     </div>
 
-                    <div id="iss-map-stage">
+
+<section class="tracking-control-panel" aria-labelledby="tracking-controls-title">
+    <div class="tracking-control-heading">
+        <div>
+            <p class="tracking-control-label">
+                SATELLITE / TRACKING SYSTEM
+            </p>
+            <h3 id="tracking-controls-title">
+                Live Tracking Controls
+            </h3>
+            <p class="tracking-control-description">
+                Manage telemetry updates and ISS position tracking.
+            </p>
+        </div>
+        <div id="tracking-control-status"
+             class="tracking-control-status"
+             data-active="true"
+             role="status">
+            TRACKING ACTIVE
+        </div>
+    </div>
+
+    <div class="tracking-control-toolbar">
+        <button id="tracking-toggle"
+                type="button"
+                class="tracking-control-primary"
+                aria-pressed="true">
+            Pause Tracking
+        </button>
+
+        <button id="tracking-refresh"
+                type="button"
+                class="tracking-control-button">
+            Refresh Now
+        </button>
+
+        <label class="tracking-control-field" for="tracking-interval">
+            <span>UPDATE INTERVAL</span>
+            <select id="tracking-interval">
+                <option value="5000" selected>5 seconds</option>
+                <option value="10000">10 seconds</option>
+                <option value="15000">15 seconds</option>
+                <option value="30000">30 seconds</option>
+            </select>
+        </label>
+    </div>
+
+    <div class="tracking-control-footer">
+        <div>
+            <span>NEXT UPDATE</span>
+            <strong id="tracking-countdown">WAITING</strong>
+        </div>
+
+        <div>
+            <span>LAST REQUEST (UTC)</span>
+            <strong id="tracking-last-request">--</strong>
+        </div>
+
+        <div>
+            <span>DATA SOURCE</span>
+            <strong>KOTLIN / KTOR API</strong>
+        </div>
+    </div>
+</section>
+
+<div id="iss-map-stage">
                         <div class="iss-map-toolbar" role="toolbar" aria-label="ISS map controls">
                             <button type="button" id="map-follow" class="iss-map-button" aria-pressed="false">
                                 Follow ISS
@@ -550,6 +615,7 @@
     <script src="/js/telemetryCharts.js"></script>
     <script src="/js/groundCoverage.js"></script>
 <script src="/js/tracker.js"></script>
+<script src="/js/trackingControls.js"></script>
 </body>
 
 </html>

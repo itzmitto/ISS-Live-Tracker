@@ -89,5 +89,4 @@ async function updateIssTelemetry() {
     }
 }
 
-updateIssTelemetry();
-setInterval(updateIssTelemetry, 5000);
+window.fetchIssTelemetry = updateIssTelemetry;
