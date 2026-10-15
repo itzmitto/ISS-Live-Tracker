@@ -1,341 +1,428 @@
 import * as THREE from "three";
 
 export function createIssModel() {
-    const group = new THREE.Group();
-    const animatedArrays = [];
+    const station = new THREE.Group();
+    station.name = "ISS Space Station";
+    station.scale.setScalar(0.095);
 
     const materials = {
-        white: new THREE.MeshStandardMaterial({
-            color: 0xdde5ed,
-            metalness: 0.62,
-            roughness: 0.38
+        hull: new THREE.MeshStandardMaterial({
+            color: 0xd9e1e9,
+            metalness: 0.72,
+            roughness: 0.32
         }),
-        silver: new THREE.MeshStandardMaterial({
-            color: 0x8fa5b9,
-            metalness: 0.8,
-            roughness: 0.3
+        white: new THREE.MeshStandardMaterial({
+            color: 0xf4f7fa,
+            metalness: 0.35,
+            roughness: 0.48
+        }),
+        frame: new THREE.MeshStandardMaterial({
+            color: 0x596b7c,
+            metalness: 0.82,
+            roughness: 0.27
         }),
         dark: new THREE.MeshStandardMaterial({
-            color: 0x263746,
-            metalness: 0.56,
-            roughness: 0.4
-        }),
-        gold: new THREE.MeshStandardMaterial({
-            color: 0xb68a45,
+            color: 0x202d3b,
             metalness: 0.65,
-            roughness: 0.38
+            roughness: 0.36
         }),
         solar: new THREE.MeshStandardMaterial({
-            color: 0x365379,
-            metalness: 0.3,
-            roughness: 0.52,
+            color: 0x173d80,
+            emissive: 0x071b3b,
+            emissiveIntensity: 0.25,
+            metalness: 0.45,
+            roughness: 0.27,
             side: THREE.DoubleSide
         }),
-        solarGrid: new THREE.LineBasicMaterial({
-            color: 0xb9a076,
-            transparent: true,
-            opacity: 0.65
+        solarGrid: new THREE.MeshBasicMaterial({
+            color: 0x6d9cca
         }),
-        light: new THREE.MeshBasicMaterial({
-            color: 0xff4545
+        gold: new THREE.MeshStandardMaterial({
+            color: 0xa88a45,
+            metalness: 0.85,
+            roughness: 0.26
+        }),
+        window: new THREE.MeshStandardMaterial({
+            color: 0x183b62,
+            metalness: 0.5,
+            roughness: 0.2
         })
     };
 
-    function box(width, height, depth, material, position, parent = group) {
+    function box(parent, width, height, depth, material, x, y, z) {
         const mesh = new THREE.Mesh(
             new THREE.BoxGeometry(width, height, depth),
             material
         );
 
-        mesh.position.set(...position);
+        mesh.position.set(x, y, z);
         parent.add(mesh);
 
         return mesh;
     }
 
-    function cylinder(radius, length, material, position, rotation = [0, 0, 0]) {
+    function cylinder(
+        parent,
+        radius,
+        length,
+        material,
+        x,
+        y,
+        z,
+        axis = "z"
+    ) {
         const mesh = new THREE.Mesh(
             new THREE.CylinderGeometry(
                 radius,
                 radius,
                 length,
-                16
+                20
             ),
             material
         );
 
-        mesh.position.set(...position);
-        mesh.rotation.set(...rotation);
-        group.add(mesh);
+        if (axis === "z") {
+            mesh.rotation.x = Math.PI / 2;
+        } else if (axis === "x") {
+            mesh.rotation.z = Math.PI / 2;
+        }
+
+        mesh.position.set(x, y, z);
+        parent.add(mesh);
 
         return mesh;
     }
 
-    function rod(start, end, radius = 0.0015, material = materials.silver) {
-        const from = new THREE.Vector3(...start);
-        const to = new THREE.Vector3(...end);
-        const direction = to.clone().sub(from);
+    function beam(parent, start, end, radius, material) {
+        const a = new THREE.Vector3(...start);
+        const b = new THREE.Vector3(...end);
+        const direction = b.clone().sub(a);
 
         const mesh = new THREE.Mesh(
             new THREE.CylinderGeometry(
                 radius,
                 radius,
                 direction.length(),
-                8
+                6
             ),
             material
         );
 
-        mesh.position.copy(from).add(to).multiplyScalar(0.5);
+        mesh.position.copy(a).add(b).multiplyScalar(0.5);
+
         mesh.quaternion.setFromUnitVectors(
             new THREE.Vector3(0, 1, 0),
             direction.normalize()
         );
 
-        group.add(mesh);
+        parent.add(mesh);
         return mesh;
     }
 
-    function createTruss() {
-        box(0.315, 0.004, 0.004, materials.silver, [0, 0, 0]);
+    const truss = new THREE.Group();
+    truss.name = "Integrated Truss Structure";
+    station.add(truss);
 
-        for (const y of [-0.007, 0.007]) {
-            rod([-0.157, y, 0], [0.157, y, 0]);
-        }
-
-        for (let x = -0.15; x <= 0.151; x += 0.025) {
-            rod([x, -0.007, 0], [x, 0.007, 0], 0.0009);
-
-            if (x + 0.025 <= 0.16) {
-                rod(
-                    [x, -0.007, 0],
-                    [x + 0.025, 0.007, 0],
-                    0.0008
-                );
-            }
+    for (const y of [-0.065, 0.065]) {
+        for (const z of [-0.055, 0.055]) {
+            box(
+                truss,
+                2.4,
+                0.018,
+                0.018,
+                materials.frame,
+                0,
+                y,
+                z
+            );
         }
     }
 
-    function createModules() {
-        cylinder(
-            0.015,
-            0.065,
-            materials.white,
-            [0, 0, 0.021],
-            [Math.PI / 2, 0, 0]
+    for (let index = 0; index <= 16; index++) {
+        const x = -1.2 + index * 0.15;
+
+        beam(
+            truss,
+            [x, -0.065, -0.055],
+            [x, 0.065, 0.055],
+            0.008,
+            materials.hull
         );
 
-        cylinder(
-            0.011,
-            0.039,
-            materials.white,
-            [0.022, -0.003, 0.011],
-            [0, 0, Math.PI / 2]
+        beam(
+            truss,
+            [x, 0.065, -0.055],
+            [x, -0.065, 0.055],
+            0.008,
+            materials.hull
         );
 
-        cylinder(
-            0.009,
-            0.033,
-            materials.silver,
-            [-0.023, 0.004, 0.009],
-            [0, 0, Math.PI / 2]
-        );
+        if (index < 16) {
+            const nextX = x + 0.15;
 
-        cylinder(
-            0.013,
-            0.025,
-            materials.white,
-            [0, 0, 0.062],
-            [Math.PI / 2, 0, 0]
-        );
+            beam(
+                truss,
+                [x, 0.065, -0.055],
+                [nextX, -0.065, -0.055],
+                0.007,
+                materials.frame
+            );
 
-        for (const z of [0.0, 0.018, 0.036, 0.054]) {
-            cylinder(
-                0.0155,
-                0.002,
-                materials.silver,
-                [0, 0, z],
-                [Math.PI / 2, 0, 0]
+            beam(
+                truss,
+                [x, 0.065, 0.055],
+                [nextX, -0.065, 0.055],
+                0.007,
+                materials.frame
             );
         }
+    }
+
+    const modules = new THREE.Group();
+    modules.name = "Pressurized Modules";
+    modules.position.y = -0.14;
+    station.add(modules);
+
+    cylinder(modules, 0.175, 0.82, materials.white, 0, 0, 0.03);
+    cylinder(modules, 0.15, 0.42, materials.hull, 0, 0, -0.54);
+    cylinder(modules, 0.14, 0.4, materials.white, 0, 0, 0.58);
+    cylinder(modules, 0.11, 0.25, materials.hull, 0, 0, 0.9);
+
+    for (const z of [-0.79, -0.36, 0.41, 0.78, 1.025]) {
+        const ring = new THREE.Mesh(
+            new THREE.TorusGeometry(0.15, 0.018, 8, 24),
+            materials.frame
+        );
+
+        ring.position.z = z;
+        modules.add(ring);
+    }
+
+    for (const z of [-0.2, 0.02, 0.24]) {
+        for (const side of [-1, 1]) {
+            const window = new THREE.Mesh(
+                new THREE.SphereGeometry(0.035, 12, 12),
+                materials.window
+            );
+
+            window.position.set(side * 0.174, 0, z);
+            window.scale.set(0.25, 1, 1);
+            modules.add(window);
+        }
+    }
+
+    cylinder(
+        modules,
+        0.145,
+        0.52,
+        materials.white,
+        0.3,
+        0,
+        0.08,
+        "x"
+    );
+
+    cylinder(
+        modules,
+        0.075,
+        0.18,
+        materials.dark,
+        0.61,
+        0,
+        0.08,
+        "x"
+    );
+
+    const solarPivots = [];
+
+    function createSolarPanel(parent, z) {
+        const panel = new THREE.Group();
+        panel.name = "Photovoltaic Solar Array";
+        panel.position.z = z;
+        parent.add(panel);
 
         box(
-            0.023,
-            0.015,
+            panel,
+            0.4,
             0.018,
-            materials.dark,
-            [0, 0, -0.014]
-        );
-
-        box(
-            0.031,
-            0.011,
-            0.022,
-            materials.gold,
-            [0.018, 0.015, 0.015]
-        );
-
-        for (const x of [-0.035, 0.035]) {
-            rod(
-                [x, -0.024, 0],
-                [x, 0.024, 0],
-                0.0014
-            );
-
-            rod(
-                [x, 0, -0.022],
-                [x, 0, 0.022],
-                0.0012
-            );
-        }
-    }
-
-    function createSolarPanel(parent, centerY) {
-        const panel = box(
-            0.031,
-            0.099,
-            0.002,
+            0.84,
             materials.solar,
-            [0, centerY, 0],
-            parent
+            0,
+            0,
+            0
         );
 
-        const border = new THREE.EdgesGeometry(panel.geometry);
-        const edges = new THREE.LineSegments(
-            border,
-            new THREE.LineBasicMaterial({
-                color: 0xbba67e
-            })
-        );
-
-        edges.position.copy(panel.position);
-        parent.add(edges);
-
-        const points = [];
-
-        for (let column = 1; column < 5; column++) {
-            const x = -0.0155 + column * (0.031 / 5);
-
-            points.push(
-                x, centerY - 0.0495, 0.0014,
-                x, centerY + 0.0495, 0.0014
+        for (const x of [-0.21, 0.21]) {
+            box(
+                panel,
+                0.017,
+                0.024,
+                0.87,
+                materials.frame,
+                x,
+                0,
+                0
             );
         }
 
-        for (let row = 1; row < 13; row++) {
-            const y = centerY - 0.0495 + row * (0.099 / 13);
-
-            points.push(
-                -0.0155, y, 0.0014,
-                0.0155, y, 0.0014
+        for (const edge of [-0.43, 0.43]) {
+            box(
+                panel,
+                0.43,
+                0.024,
+                0.016,
+                materials.frame,
+                0,
+                0,
+                edge
             );
         }
 
-        const geometry = new THREE.BufferGeometry();
-
-        geometry.setAttribute(
-            "position",
-            new THREE.Float32BufferAttribute(points, 3)
-        );
-
-        parent.add(
-            new THREE.LineSegments(
-                geometry,
-                materials.solarGrid
-            )
-        );
-    }
-
-    function createSolarArrays() {
-        const xPositions = [-0.129, -0.087, 0.087, 0.129];
-
-        xPositions.forEach((x, index) => {
-            const pivot = new THREE.Group();
-            pivot.position.set(x, 0, 0.002);
-
-            group.add(pivot);
+        for (let column = 1; column < 6; column++) {
+            const x = -0.2 + column * (0.4 / 6);
 
             box(
+                panel,
                 0.004,
-                0.24,
-                0.004,
-                materials.silver,
-                [0, 0, -0.003],
-                pivot
+                0.002,
+                0.83,
+                materials.solarGrid,
+                x,
+                0.011,
+                0
             );
+        }
 
-            createSolarPanel(pivot, 0.064);
-            createSolarPanel(pivot, -0.064);
+        for (let row = 1; row < 11; row++) {
+            const rowZ = -0.42 + row * (0.84 / 11);
 
-            animatedArrays.push({
-                pivot,
-                phase: index * 0.7
-            });
-        });
+            box(
+                panel,
+                0.4,
+                0.002,
+                0.004,
+                materials.solarGrid,
+                0,
+                0.011,
+                rowZ
+            );
+        }
+
+        return panel;
     }
 
-    function createAntennas() {
-        rod(
-            [-0.018, 0.015, 0.02],
-            [-0.037, 0.037, 0.051],
-            0.0009
+    for (const x of [-1.01, -0.55, 0.55, 1.01]) {
+        const pivot = new THREE.Group();
+        pivot.name = "Solar Array Tracking Assembly";
+        pivot.position.set(x, 0.13, 0);
+
+        beam(
+            pivot,
+            [0, 0, -1.05],
+            [0, 0, 1.05],
+            0.018,
+            materials.hull
         );
 
-        rod(
-            [0.015, -0.014, 0.025],
-            [0.037, -0.035, 0.05],
-            0.0009
+        createSolarPanel(pivot, -0.58);
+        createSolarPanel(pivot, 0.58);
+
+        box(
+            pivot,
+            0.13,
+            0.08,
+            0.13,
+            materials.gold,
+            0,
+            0,
+            0
         );
 
-        const antenna = new THREE.Mesh(
-            new THREE.ConeGeometry(
-                0.011,
-                0.018,
-                20
-            ),
-            materials.white
-        );
+        station.add(pivot);
+        solarPivots.push(pivot);
+    }
 
-        antenna.position.set(-0.037, 0.037, 0.051);
-        antenna.rotation.x = Math.PI / 2;
-        group.add(antenna);
+    for (const x of [-0.35, 0.35]) {
+        for (const z of [-0.38, 0.38]) {
+            box(
+                station,
+                0.13,
+                0.012,
+                0.34,
+                materials.white,
+                x,
+                0.09,
+                z
+            );
+        }
+    }
+
+    const dish = new THREE.Group();
+    dish.name = "Communications Antenna";
+    dish.position.set(-0.29, 0.15, -0.12);
+
+    cylinder(
+        dish,
+        0.015,
+        0.22,
+        materials.frame,
+        0,
+        0.1,
+        0,
+        "y"
+    );
+
+    const reflector = new THREE.Mesh(
+        new THREE.ConeGeometry(0.115, 0.065, 28),
+        materials.white
+    );
+
+    reflector.position.y = 0.23;
+    dish.add(reflector);
+
+    const dishReceiver = new THREE.Mesh(
+        new THREE.SphereGeometry(0.025, 12, 12),
+        materials.gold
+    );
+
+    dishReceiver.position.y = 0.3;
+    dish.add(dishReceiver);
+    station.add(dish);
+
+    const beacons = [];
+
+    for (const [x, color] of [
+        [-1.22, 0xff675c],
+        [1.22, 0x78e7ff]
+    ]) {
+        const material = new THREE.MeshBasicMaterial({ color });
 
         const beacon = new THREE.Mesh(
-            new THREE.SphereGeometry(0.003, 10, 10),
-            materials.light
+            new THREE.SphereGeometry(0.035, 12, 12),
+            material
         );
 
-        beacon.position.set(0, 0.022, 0.02);
-        group.add(beacon);
-
-        return beacon;
+        beacon.position.set(x, 0.075, 0);
+        station.add(beacon);
+        beacons.push(beacon);
     }
 
-    createTruss();
-    createModules();
-    createSolarArrays();
+    function update(time, animateSolar = true) {
+        solarPivots.forEach((pivot, index) => {
+            if (animateSolar) {
+                const direction = index % 2 === 0 ? 1 : -1;
 
-    const beacon = createAntennas();
-
-    group.traverse(child => {
-        if (child.isMesh) {
-            child.castShadow = false;
-            child.receiveShadow = false;
-        }
-    });
-
-    function update(time) {
-        animatedArrays.forEach(({ pivot, phase }) => {
-            pivot.rotation.y =
-                Math.sin(time * 0.14 + phase) * 0.07;
+                pivot.rotation.x =
+                    direction * 0.12 * Math.sin(time * 0.15);
+            }
         });
 
-        beacon.visible =
-            Math.sin(time * 3.5) > 0;
+        beacons[0].visible = Math.sin(time * 2.8) > 0;
+        beacons[1].visible = Math.sin(time * 2.8 + Math.PI) > 0;
     }
 
     return {
-        group,
+        group: station,
         update
     };
 }
