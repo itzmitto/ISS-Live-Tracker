@@ -1,11 +1,34 @@
-*.kt linguist-language=Kotlin
-*.kts linguist-language=Kotlin
+# Kotlin source files
+*.kt linguist-language=Kotlin linguist-detectable
+*.kts linguist-language=Kotlin linguist-detectable
 
+# Frontend source files
 *.js linguist-language=JavaScript
 *.html linguist-language=HTML
 *.css linguist-language=CSS
 
-src/main/resources/static/css/styles.css linguist-generated=true
+# Generated Tailwind CSS
+/src/main/resources/static/css/styles.css linguist-generated=true
 
-gradlew linguist-generated=true
-gradlew.bat linguist-generated=true
+# Gradle wrappers
+/gradlew linguist-generated=true
+/gradlew.bat linguist-generated=true
+/gradle/wrapper/** linguist-generated=true
+
+# Generated and dependency files
+/build/** linguist-generated=true
+/.gradle/** linguist-generated=true
+/node_modules/** linguist-vendored
+/dist/** linguist-generated=true
+/coverage/** linguist-generated=true
+
+# Binary assets
+*.jar binary
+*.class binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
