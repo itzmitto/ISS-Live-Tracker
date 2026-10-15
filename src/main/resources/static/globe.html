@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive 3D Earth and live International Space Station tracking">
+    <title>3D Earth | ISS Live Tracker</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+        }
+    }
+    </script>
+</head>
+<body class="globe-page">
+    <header class="globe-header">
+        <a href="/" class="globe-brand">ISS LIVE TRACKER</a>
+        <nav class="globe-nav" aria-label="Main navigation">
+            <a href="/">Tracking</a>
+            <a href="/mission.html">Mission</a>
+            <a href="/statistics.html">Statistics</a>
+            <a href="/history.html">History</a>
+            <a href="/orbit.html">Orbit</a>
+            <a href="/timeline.html">Timeline</a>
+            <a href="/globe.html" aria-current="page">3D Earth</a>
+        </nav>
+        <span id="globe-connection" role="status">CONNECTING</span>
+    </header>
+
+    <main class="globe-main">
+        <section class="globe-intro">
+            <div>
+                <p class="globe-eyebrow">ORBITAL EXPERIENCE / REAL-TIME VISUALIZATION</p>
+                <h1>Earth, From Orbit.</h1>
+                <p class="globe-subtitle">
+                    Explore our planet in three dimensions and follow the
+                    International Space Station using live orbital telemetry.
+                </p>
+            </div>
+            <div class="globe-live-indicator">
+                <span class="globe-live-dot"></span>
+                LIVE ORBITAL DATA
+            </div>
+        </section>
+
+        <div class="globe-layout">
+            <section class="globe-stage" aria-label="Interactive 3D Earth visualization">
+                <div class="globe-stage-top">
+                    <div>
+                        <span class="globe-stage-kicker">EARTH / ORBITAL VIEW</span>
+                        <strong>ISS POSITION VISUALIZER</strong>
+                    </div>
+                    <span class="globe-stage-tag">THREE.JS / WEBGL</span>
+                </div>
+
+                <div id="globe-canvas" class="globe-canvas">
+                    <div id="globe-loading" class="globe-loading">
+                        <span class="globe-loading-ring"></span>
+                        INITIALIZING 3D EARTH
+                    </div>
+                </div>
+
+                <div class="globe-stage-bottom">
+                    <span>DRAG TO ROTATE · SCROLL TO ZOOM</span>
+                    <span>ISS MARKER NOT TO SCALE</span>
+                </div>
+            </section>
+
+            <aside class="globe-sidebar">
+                <section class="globe-panel">
+                    <div class="globe-panel-heading">
+                        <span>01 / LIVE TELEMETRY</span>
+                        <strong>ISS STATUS</strong>
+                    </div>
+                    <div class="globe-data-row">
+                        <span>LATITUDE</span>
+                        <strong id="globe-latitude">--</strong>
+                    </div>
+                    <div class="globe-data-row">
+                        <span>LONGITUDE</span>
+                        <strong id="globe-longitude">--</strong>
+                    </div>
+                    <div class="globe-data-row">
+                        <span>ALTITUDE</span>
+                        <strong id="globe-altitude">--</strong>
+                    </div>
+                    <div class="globe-data-row">
+                        <span>VELOCITY</span>
+                        <strong id="globe-velocity">--</strong>
+                    </div>
+                    <div class="globe-data-row">
+                        <span>VISIBILITY</span>
+                        <strong id="globe-visibility">--</strong>
+                    </div>
+                    <div class="globe-data-row">
+                        <span>UPDATED</span>
+                        <strong id="globe-updated">--</strong>
+                    </div>
+                </section>
+
+                <section class="globe-panel">
+                    <div class="globe-panel-heading">
+                        <span>02 / CAMERA CONTROL</span>
+                        <strong>INTERACTIVE VIEW</strong>
+                    </div>
+                    <div class="globe-actions">
+                        <button id="globe-follow" type="button" aria-pressed="true">
+                            Follow ISS
+                        </button>
+                        <button id="globe-rotate" type="button" aria-pressed="false">
+                            Auto Rotate
+                        </button>
+                        <button id="globe-coverage" type="button" aria-pressed="true">
+                            Coverage On
+                        </button>
+                        <button id="globe-trail" type="button" aria-pressed="true">
+                            Trail On
+                        </button>
+                        <button id="globe-reset" type="button" class="globe-reset-button">
+                            Reset Camera
+                        </button>
+                    </div>
+                </section>
+
+                <section class="globe-panel">
+                    <div class="globe-panel-heading">
+                        <span>03 / ORBITAL INFORMATION</span>
+                        <strong>LIVE GROUND TRACK</strong>
+                    </div>
+                    <div class="globe-data-row">
+                        <span>RECORDED POINTS</span>
+                        <strong id="globe-samples">0</strong>
+                    </div>
+                    <div class="globe-data-row">
+                        <span>GROUND COVERAGE</span>
+                        <strong id="globe-footprint">--</strong>
+                    </div>
+                    <div class="globe-data-row">
+                        <span>CAMERA MODE</span>
+                        <strong id="globe-camera-mode">FOLLOW</strong>
+                    </div>
+                    <p class="globe-panel-note">
+                        The trail shows recorded positions only.
+                        The coverage ring represents approximate geometric
+                        line-of-sight, not guaranteed ground visibility.
+                    </p>
+                </section>
+            </aside>
+        </div>
+
+        <footer class="globe-footer">
+            <span>ISS LIVE TRACKER / INTERACTIVE 3D EARTH</span>
+            <span>INDEPENDENT EDUCATIONAL PROJECT</span>
+        </footer>
+    </main>
+
+    <script type="module" src="/js/globe.js"></script>
+</body>
+</html>
