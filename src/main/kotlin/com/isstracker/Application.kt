@@ -1,6 +1,7 @@
 package com.isstracker
 
 import com.isstracker.routes.issRoutes
+import com.isstracker.routes.orbitalAnalyticsRoutes
 import com.isstracker.routes.issHistoryRoutes
 import com.isstracker.routes.issStatisticsRoutes
 import com.isstracker.routes.missionRoutes
@@ -33,6 +34,7 @@ fun main() {
 
         routing {
             issRoutes(issService)
+            orbitalAnalyticsRoutes(issService)
             issHistoryRoutes(issService)
             issStatisticsRoutes(issService)
             missionRoutes()
