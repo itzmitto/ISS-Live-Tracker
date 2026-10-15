@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ISS orbital analytics powered by Kotlin">
+    <title>Orbital Analytics | ISS Live Tracker</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="min-h-screen bg-[#edf4f9] text-[#173b59]">
+    <header class="border-b border-[#d7e2eb] bg-white">
+        <div class="mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-5 px-6 py-5">
+            <a href="/" class="text-sm font-bold tracking-[0.15em]">
+                ISS LIVE TRACKER
+            </a>
+            <nav class="flex flex-wrap items-center gap-5 text-xs font-semibold uppercase tracking-[0.08em]">
+                <a href="/" class="text-[#587388] hover:text-[#0a6ea8]">Tracking</a>
+                <a href="/mission.html" class="text-[#587388] hover:text-[#0a6ea8]">Mission</a>
+                <a href="/statistics.html" class="text-[#587388] hover:text-[#0a6ea8]">Statistics</a>
+                <a href="/history.html" class="text-[#587388] hover:text-[#0a6ea8]">History</a>
+                <a href="/orbit.html" aria-current="page" class="text-[#0a6ea8]">Orbit</a>
+            </nav>
+            <span id="orbit-status" role="status" class="text-xs font-semibold text-[#587388]">
+                CONNECTING
+            </span>
+        </div>
+    </header>
+
+    <main class="mx-auto max-w-[1500px] px-6 py-10">
+        <section class="border-b border-[#d7e2eb] pb-9">
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-[#0a6ea8]">
+                MISSION CONTROL / ORBITAL MECHANICS
+            </p>
+            <h1 class="mt-4 text-4xl font-semibold tracking-tight md:text-5xl">
+                Orbital Analytics
+            </h1>
+            <p class="mt-5 max-w-3xl text-sm leading-7 text-[#587388]">
+                Live ISS measurements combined with approximate circular-orbit
+                calculations performed by the Kotlin backend.
+            </p>
+            <p class="mt-4 font-mono text-xs text-[#587388]">
+                LAST MEASUREMENT:
+                <span id="orbit-updated" class="text-[#0a6ea8]">WAITING</span>
+            </p>
+        </section>
+
+        <section class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-wider text-[#587388]">Estimated Orbital Period</p>
+                <p id="orbit-period" class="mt-5 font-mono text-3xl font-semibold text-[#0a6ea8]">--</p>
+                <p class="mt-3 text-xs text-[#587388]">Minutes for one modeled orbit</p>
+            </article>
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-wider text-[#587388]">Estimated Orbits Per Day</p>
+                <p id="orbit-per-day" class="mt-5 font-mono text-3xl font-semibold text-[#0a6ea8]">--</p>
+                <p class="mt-3 text-xs text-[#587388]">Modeled revolutions per 24 hours</p>
+            </article>
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-wider text-[#587388]">Orbital Path Length</p>
+                <p id="orbit-circumference" class="mt-5 font-mono text-3xl font-semibold">--</p>
+                <p class="mt-3 text-xs text-[#587388]">Approximate circular orbit circumference</p>
+            </article>
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-wider text-[#587388]">Live Altitude</p>
+                <p id="orbit-altitude" class="mt-5 font-mono text-3xl font-semibold">--</p>
+                <p class="mt-3 text-xs text-[#587388]">Observed altitude above Earth</p>
+            </article>
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-wider text-[#587388]">Observed Velocity</p>
+                <p id="orbit-observed-velocity" class="mt-5 font-mono text-3xl font-semibold">--</p>
+                <p class="mt-3 text-xs text-[#587388]">Velocity reported by the ISS data source</p>
+            </article>
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-wider text-[#587388]">Circular Orbit Velocity</p>
+                <p id="orbit-circular-velocity" class="mt-5 font-mono text-3xl font-semibold">--</p>
+                <p class="mt-3 text-xs text-[#587388]">Estimated speed for a circular orbit</p>
+            </article>
+        </section>
+
+        <section class="mt-7 grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+            <article class="overflow-hidden border border-[#d7e2eb] bg-white">
+                <div class="border-b border-[#d7e2eb] px-6 py-5">
+                    <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#0a6ea8]">
+                        ORBITAL GEOMETRY
+                    </p>
+                    <h2 class="mt-2 text-xl font-semibold">Earth Orbit Model</h2>
+                </div>
+
+                <div class="flex min-h-[380px] items-center justify-center bg-[#f5f9fc] p-6">
+                    <svg viewBox="0 0 520 350" class="h-auto w-full max-w-[520px]" role="img" aria-label="Schematic representation of a circular ISS orbit around Earth">
+                        <defs>
+                            <radialGradient id="earthFill">
+                                <stop offset="0%" stop-color="#5fa8d5"/>
+                                <stop offset="100%" stop-color="#105580"/>
+                            </radialGradient>
+                        </defs>
+                        <circle cx="260" cy="175" r="150" fill="none" stroke="#b5d0e2" stroke-width="1.5" stroke-dasharray="6 8"/>
+                        <circle cx="260" cy="175" r="112" fill="url(#earthFill)"/>
+                        <path d="M185 99 L215 88 L244 115 L239 139 L221 150 L232 177 L211 211 L187 194 L178 164 L156 147 Z" fill="#98cfc4" opacity=".8"/>
+                        <path d="M280 112 L315 99 L345 121 L326 143 L332 169 L302 180 L288 157 Z" fill="#98cfc4" opacity=".75"/>
+                        <path d="M272 211 L307 203 L328 224 L300 250 L281 244 Z" fill="#98cfc4" opacity=".7"/>
+                        <circle cx="260" cy="175" r="150" fill="none" stroke="#176a9c" stroke-width="2"/>
+                        <circle cx="407" cy="146" r="6" fill="#176a9c" stroke="white" stroke-width="3"/>
+                        <path d="M409 143 L446 110" fill="none" stroke="#176a9c" stroke-width="1.5"/>
+                        <text x="450" y="106" font-size="13" fill="#173b59" font-weight="700">ISS</text>
+                        <text x="260" y="180" text-anchor="middle" font-size="18" fill="white" font-weight="700">EARTH</text>
+                        <text x="260" y="343" text-anchor="middle" font-size="11" fill="#587388">SCHEMATIC / NOT TO SCALE</text>
+                    </svg>
+                </div>
+            </article>
+
+            <aside class="border border-[#d7e2eb] bg-white">
+                <div class="border-b border-[#d7e2eb] px-6 py-5">
+                    <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#0a6ea8]">
+                        LINE-OF-SIGHT GEOMETRY
+                    </p>
+                    <h2 class="mt-2 text-xl font-semibold">Horizon Analysis</h2>
+                </div>
+
+                <div class="divide-y divide-[#e2ebf1] px-6">
+                    <div class="py-6">
+                        <p class="text-xs text-[#587388]">Orbital Radius</p>
+                        <p id="orbit-radius" class="mt-3 font-mono text-2xl font-semibold">--</p>
+                    </div>
+                    <div class="py-6">
+                        <p class="text-xs text-[#587388]">Geometric Horizon Angle</p>
+                        <p id="orbit-horizon-angle" class="mt-3 font-mono text-2xl font-semibold text-[#0a6ea8]">--</p>
+                    </div>
+                    <div class="py-6">
+                        <p class="text-xs text-[#587388]">Horizon Surface Radius</p>
+                        <p id="orbit-horizon-radius" class="mt-3 font-mono text-2xl font-semibold text-[#0a6ea8]">--</p>
+                    </div>
+                </div>
+            </aside>
+        </section>
+
+        <section class="mt-7 border border-[#d7e2eb] bg-white p-6">
+            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-[#0a6ea8]">
+                CALCULATION MODEL
+            </p>
+            <h2 class="mt-3 text-xl font-semibold">About These Estimates</h2>
+            <p class="mt-4 max-w-4xl text-sm leading-8 text-[#587388]">
+                The calculations assume a circular orbit around a spherical Earth.
+                They use the latest reported ISS altitude and Earth's standard
+                gravitational parameter. The real ISS orbit is not perfectly
+                circular, and orbital maneuvers, atmospheric drag and Earth
+                oblateness affect its motion. Estimates are not precision
+                orbit predictions or official flight dynamics data.
+            </p>
+        </section>
+    </main>
+
+    <script src="/js/orbit.js"></script>
+</body>
+</html>
