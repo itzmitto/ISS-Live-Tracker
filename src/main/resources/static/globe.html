@@ -151,6 +151,66 @@
             </aside>
         </div>
 
+
+        <section class="globe-replay-panel" aria-labelledby="globe-replay-title">
+            <div class="globe-replay-header">
+                <div>
+                    <p class="globe-replay-eyebrow">04 / ORBITAL PLAYBACK SYSTEM</p>
+                    <h2 id="globe-replay-title">3D Orbit Replay</h2>
+                    <p>Replay real recorded ISS positions around Earth.</p>
+                </div>
+                <strong id="globe-replay-mode" role="status">LIVE MODE</strong>
+            </div>
+            <div class="globe-replay-data">
+                <div>
+                    <span>SELECTED TIME</span>
+                    <strong id="globe-replay-time">--</strong>
+                </div>
+                <div>
+                    <span>POSITION</span>
+                    <strong id="globe-replay-index">0 / 0</strong>
+                </div>
+                <div>
+                    <span>RECORDING DURATION</span>
+                    <strong id="globe-replay-duration">00:00:00</strong>
+                </div>
+                <div>
+                    <span>PLAYBACK SPEED</span>
+                    <strong id="globe-replay-speed-label">1×</strong>
+                </div>
+            </div>
+            <div class="globe-replay-body">
+                <div class="globe-replay-times">
+                    <span id="globe-replay-start">--</span>
+                    <span id="globe-replay-end">--</span>
+                </div>
+                <input id="globe-replay-slider" type="range"
+                       min="0" max="0" value="0" disabled
+                       aria-label="Select a recorded ISS position">
+                <div class="globe-replay-actions">
+                    <button id="globe-replay-previous" type="button" disabled>Previous</button>
+                    <button id="globe-replay-play" type="button" disabled>Play</button>
+                    <button id="globe-replay-next" type="button" disabled>Next</button>
+                    <button id="globe-replay-restart" type="button" disabled>Replay From Start</button>
+                    <button id="globe-replay-live" type="button" disabled>Return To Live</button>
+                    <label for="globe-replay-speed">
+                        SPEED
+                        <select id="globe-replay-speed">
+                            <option value="2000">0.5×</option>
+                            <option value="1000" selected>1×</option>
+                            <option value="500">2×</option>
+                            <option value="250">4×</option>
+                        </select>
+                    </label>
+                </div>
+                <p class="globe-replay-note">
+                    Gold represents the replayed portion of the orbital trail.
+                    Playback uses recorded observations, not predicted positions.
+                    Speed controls sample playback rather than orbital time.
+                </p>
+            </div>
+        </section>
+
         <footer class="globe-footer">
             <span>ISS LIVE TRACKER / INTERACTIVE 3D EARTH</span>
             <span>INDEPENDENT EDUCATIONAL PROJECT</span>

@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { createGlobeReplay } from "./globeReplay.js";
 
 const EARTH_RADIUS_KM = 6371;
 const POLLING_INTERVAL = 5000;
@@ -35,6 +36,7 @@ const state = {
     firstPosition: true,
     loading: false,
     current: null,
+    livePosition: null,
     targetPosition: null
 };
 
@@ -324,6 +326,65 @@ scene.add(coverage);
 const trailGroup = new THREE.Group();
 scene.add(trailGroup);
 
+const replayProgressGroup = new THREE.Group();
+scene.add(replayProgressGroup);
+
+function renderReplayProgress(history, selectedIndex) {
+    for (const line of [...replayProgressGroup.children]) {
+        replayProgressGroup.remove(line);
+        line.geometry.dispose();
+        line.material.dispose();
+    }
+
+    let segment = [];
+    let previous = null;
+
+    function addSegment() {
+        if (segment.length > 1) {
+            const line = new THREE.Line(
+                new THREE.BufferGeometry().setFromPoints(segment),
+                new THREE.LineBasicMaterial({
+                    color: 0xffc766,
+                    transparent: true,
+                    opacity: 0.98,
+                    depthTest: false
+                })
+            );
+
+            line.renderOrder = 3;
+            replayProgressGroup.add(line);
+        }
+
+        segment = [];
+    }
+
+    for (const point of history.slice(0, selectedIndex + 1)) {
+        if (!validPosition(point)) continue;
+
+        if (
+            previous &&
+            point.timestamp - previous.timestamp > 90
+        ) {
+            addSegment();
+        }
+
+        segment.push(
+            toVector(
+                point.latitude,
+                point.longitude,
+                1 + point.altitude / EARTH_RADIUS_KM + 0.014
+            )
+        );
+
+        previous = point;
+    }
+
+    addSegment();
+
+    replayProgressGroup.visible = state.trail;
+}
+
+
 function updateCoverage(position) {
     const altitude = position.altitude;
     const centerLatitude = radians(position.latitude);
@@ -564,7 +625,11 @@ async function refreshTelemetry() {
             throw new Error("Invalid ISS coordinates.");
         }
 
-        updatePosition(position);
+        state.livePosition = position;
+
+        if (replay.isLive()) {
+            updatePosition(position);
+        }
 
         fields.connection.textContent = "LIVE CONNECTION";
         fields.connection.dataset.connected = "true";
@@ -582,6 +647,7 @@ async function refreshTelemetry() {
 
                 if (Array.isArray(history)) {
                     renderTrail(history);
+                    replay.updateHistory(history);
                 }
             }
         } catch (error) {
@@ -656,6 +722,8 @@ buttons.coverage.addEventListener("click", () => {
 buttons.trail.addEventListener("click", () => {
     state.trail = !state.trail;
     trailGroup.visible = state.trail;
+    replayProgressGroup.visible =
+        state.trail && !replay.isLive();
     updateControls();
 });
 
@@ -669,6 +737,27 @@ buttons.reset.addEventListener("click", () => {
     controls.update();
 
     updateControls();
+});
+
+
+const replay = createGlobeReplay({
+    onSelect(position, history, index) {
+        updatePosition(position);
+        renderReplayProgress(history, index);
+    },
+    onLive() {
+        renderReplayProgress([], 0);
+        replayProgressGroup.visible = false;
+
+        state.rotate = false;
+        state.follow = true;
+
+        if (state.livePosition) {
+            updatePosition(state.livePosition);
+        }
+
+        updateControls();
+    }
 });
 
 function resize() {
