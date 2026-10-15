@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive ISS position history and orbital timeline">
+    <title>Orbital Timeline | ISS Live Tracker</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="min-h-screen bg-[#edf4f9] text-[#173b59]">
+    <header class="border-b border-[#d7e2eb] bg-white">
+        <div class="mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-5 px-6 py-5">
+            <a href="/" class="text-sm font-bold tracking-[0.15em]">
+                ISS LIVE TRACKER
+            </a>
+            <nav class="flex flex-wrap items-center gap-5 text-xs font-semibold uppercase tracking-[0.08em]">
+                <a href="/" class="text-[#587388] hover:text-[#0a6ea8]">Tracking</a>
+                <a href="/mission.html" class="text-[#587388] hover:text-[#0a6ea8]">Mission</a>
+                <a href="/statistics.html" class="text-[#587388] hover:text-[#0a6ea8]">Statistics</a>
+                <a href="/history.html" class="text-[#587388] hover:text-[#0a6ea8]">History</a>
+                <a href="/orbit.html" class="text-[#587388] hover:text-[#0a6ea8]">Orbit</a>
+                <a href="/timeline.html" aria-current="page" class="text-[#0a6ea8]">Timeline</a>
+            </nav>
+            <span id="timeline-status" role="status" class="text-xs font-semibold text-[#587388]">
+                CONNECTING
+            </span>
+        </div>
+    </header>
+
+    <main class="mx-auto max-w-[1500px] px-6 py-10">
+        <section class="border-b border-[#d7e2eb] pb-9">
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-[#0a6ea8]">
+                MISSION CONTROL / POSITION PLAYBACK
+            </p>
+            <h1 class="mt-4 text-4xl font-semibold tracking-tight md:text-5xl">
+                Orbital Timeline
+            </h1>
+            <p class="mt-4 max-w-3xl text-sm leading-7 text-[#587388]">
+                Replay recorded ISS positions on an interactive world map.
+                Explore the ground track, inspect telemetry and follow new observations.
+            </p>
+        </section>
+
+        <section class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-wider text-[#587388]">Recorded Positions</p>
+                <p id="timeline-samples" class="mt-4 font-mono text-3xl font-semibold text-[#0a6ea8]">0</p>
+                <p class="mt-3 text-xs text-[#587388]">Up to 300 server observations</p>
+            </article>
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-wider text-[#587388]">Selected Observation</p>
+                <p id="timeline-selected-time" class="mt-4 font-mono text-2xl font-semibold">--</p>
+                <p class="mt-3 text-xs text-[#587388]">UTC time</p>
+            </article>
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-wider text-[#587388]">Playback Position</p>
+                <p id="timeline-position" class="mt-4 font-mono text-3xl font-semibold">0 / 0</p>
+                <p class="mt-3 text-xs text-[#587388]">Sample index</p>
+            </article>
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-wider text-[#587388]">Playback Mode</p>
+                <p id="timeline-mode" class="mt-4 font-mono text-2xl font-semibold text-[#0a6ea8]">WAITING</p>
+                <p class="mt-3 text-xs text-[#587388]">Live follow or replay</p>
+            </article>
+        </section>
+
+        <section class="mt-7 overflow-hidden border border-[#d7e2eb] bg-white">
+            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[#d7e2eb] px-6 py-5">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-[0.15em] text-[#0a6ea8]">
+                        POSITION HISTORY / INTERACTIVE MAP
+                    </p>
+                    <h2 class="mt-2 text-xl font-semibold">Ground Track Replay</h2>
+                </div>
+                <span class="text-xs text-[#587388]">OpenStreetMap / Leaflet</span>
+            </div>
+            <div id="timeline-map" class="timeline-map" aria-label="ISS recorded ground track map"></div>
+            <div class="border-t border-[#d7e2eb] px-6 py-4 text-xs text-[#587388]">
+                Blue line: recorded ground track. Blue marker: selected observation.
+                Positions are historical measurements, not future predictions.
+            </div>
+        </section>
+
+        <section class="mt-7 border border-[#d7e2eb] bg-white">
+            <div class="border-b border-[#d7e2eb] px-6 py-5">
+                <p class="text-xs font-bold uppercase tracking-[0.15em] text-[#0a6ea8]">
+                    HISTORICAL PLAYBACK CONTROLS
+                </p>
+                <h2 class="mt-2 text-xl font-semibold">Timeline Navigator</h2>
+            </div>
+
+            <div class="p-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <span id="timeline-start" class="font-mono text-xs text-[#587388]">--</span>
+                    <span id="timeline-end" class="font-mono text-xs text-[#587388]">--</span>
+                </div>
+
+                <input id="timeline-slider" type="range" min="0" max="0" value="0"
+                       aria-label="Recorded ISS observation"
+                       disabled class="timeline-slider mt-5">
+
+                <div class="mt-6 flex flex-wrap items-center gap-3">
+                    <button id="timeline-back" class="timeline-button" type="button" disabled>
+                        Previous
+                    </button>
+                    <button id="timeline-play" class="timeline-button-primary" type="button" disabled>
+                        Play
+                    </button>
+                    <button id="timeline-next" class="timeline-button" type="button" disabled>
+                        Next
+                    </button>
+                    <button id="timeline-live" class="timeline-button" type="button" disabled>
+                        Follow Live
+                    </button>
+                    <button id="timeline-replay" class="timeline-button" type="button" disabled>
+                        Replay From Start
+                    </button>
+
+                    <label for="timeline-speed" class="timeline-speed-label">
+                        SPEED
+                        <select id="timeline-speed">
+                            <option value="1500">0.5×</option>
+                            <option value="750" selected>1×</option>
+                            <option value="375">2×</option>
+                            <option value="150">5×</option>
+                        </select>
+                    </label>
+                </div>
+                <p class="mt-5 text-xs leading-6 text-[#587388]">
+                    Playback advances through recorded samples. The selected speed controls
+                    how quickly observations are displayed, not actual orbital time.
+                </p>
+            </div>
+        </section>
+
+        <section class="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-wider text-[#587388]">Latitude</p>
+                <p id="timeline-latitude" class="mt-4 font-mono text-2xl font-semibold">--</p>
+            </article>
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-wider text-[#587388]">Longitude</p>
+                <p id="timeline-longitude" class="mt-4 font-mono text-2xl font-semibold">--</p>
+            </article>
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-wider text-[#587388]">Altitude</p>
+                <p id="timeline-altitude" class="mt-4 font-mono text-2xl font-semibold text-[#0a6ea8]">--</p>
+            </article>
+            <article class="border border-[#d7e2eb] bg-white p-6">
+                <p class="text-xs uppercase tracking-wider text-[#587388]">Velocity</p>
+                <p id="timeline-velocity" class="mt-4 font-mono text-2xl font-semibold text-[#0a6ea8]">--</p>
+            </article>
+        </section>
+
+        <footer class="mt-12 border-t border-[#d7e2eb] py-6 text-xs text-[#587388]">
+            ISS Live Tracker / Historical Position Playback / Kotlin + Ktor
+        </footer>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/js/orbitTimeline.js"></script>
+</body>
+</html>
