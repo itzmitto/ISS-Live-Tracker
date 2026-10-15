@@ -2058,6 +2058,19 @@ body {
     margin-left: 0;
   }
 }
+#globe-inspect {
+  border-color: #d5b879;
+  background: #fff8e9;
+  color: #865e1e;
+}
+#globe-inspect:hover {
+  background: #f8ebcf;
+}
+#globe-inspect[aria-pressed="true"] {
+  border-color: #bc8732;
+  background: #bc8732;
+  color: #ffffff;
+}
 @property --tw-translate-x {
   syntax: "*";
   inherits: false;
