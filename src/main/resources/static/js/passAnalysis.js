@@ -75,16 +75,18 @@
     }
 
     function radarPoint(point) {
-        const radius =
-            (90 - Math.max(0, Math.min(90, point.elevationDegrees))) /
-            90 * 120;
+        const radar = globalThis.issPassRadar;
 
-        const angle = point.azimuthDegrees * Math.PI / 180;
+        if (!radar || typeof radar.project !== "function") {
+            throw new Error("Kotlin/JS radar module is not initialized.");
+        }
 
-        return [
-            180 + Math.sin(angle) * radius,
-            180 - Math.cos(angle) * radius
-        ];
+        const result = radar.project(
+            point.azimuthDegrees,
+            point.elevationDegrees
+        );
+
+        return [result.x, result.y];
     }
 
     function trackString(points) {
