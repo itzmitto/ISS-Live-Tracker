@@ -90,10 +90,16 @@
     }
 
     function trackString(points) {
-        return points.map(point => {
-            const [x, y] = radarPoint(point);
-            return `${x},${y}`;
-        }).join(" ");
+        const radar = globalThis.issPassRadar;
+
+        if (!radar || typeof radar.trackString !== "function") {
+            throw new Error("Kotlin/JS track calculation unavailable.");
+        }
+
+        return radar.trackString(
+            points.map(point => point.azimuthDegrees),
+            points.map(point => point.elevationDegrees)
+        );
     }
 
     function stopPlayback() {
@@ -144,18 +150,15 @@
             );
         }
 
-        const coordinates = points.map((point, index) => {
-            const x = points.length === 1
-                ? width / 2
-                : padding + index / (points.length - 1) *
-                    (width - padding * 2);
+        const radar = globalThis.issPassRadar;
 
-            const y = height - padding -
-                Math.max(0, point.elevationDegrees) / 90 *
-                    (height - padding * 2);
+        if (!radar || typeof radar.chartCoordinates !== "function") {
+            throw new Error("Kotlin/JS chart calculation unavailable.");
+        }
 
-            return [x, y];
-        });
+        const coordinates = radar.chartCoordinates(
+            points.map(point => point.elevationDegrees)
+        ).map(point => [point.x, point.y]);
 
         const selected = coordinates[state.selectedIndex];
 

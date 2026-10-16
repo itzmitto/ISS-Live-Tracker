@@ -17,18 +17,48 @@ fun main() {
     val bridge = js("({})")
 
     bridge.project = { azimuth: Double, elevation: Double ->
-        val point = PassRadar.project(
-            azimuthDegrees = azimuth,
-            elevationDegrees = elevation
-        )
-
+        val point = PassRadar.project(azimuth, elevation)
         val result = js("({})")
+
         result.x = point.x
         result.y = point.y
         result
     }
 
+    bridge.trackString = {
+        azimuths: Array<Double>,
+        elevations: Array<Double> ->
+
+        PassRadar.trackString(
+            azimuths.toList(),
+            elevations.toList()
+        )
+    }
+
+    bridge.chartCoordinates = { elevations: Array<Double> ->
+        val coordinates = PassRadar.chartCoordinates(
+            elevations.toList()
+        )
+
+        val result = js("[]")
+
+        for (point in coordinates) {
+            val entry = js("({})")
+
+            entry.x = point.x
+            entry.y = point.y
+
+            result.push(entry)
+        }
+
+        result
+    }
+
+    bridge.formatDuration = { seconds: Int ->
+        PassRadar.formatDuration(seconds)
+    }
+
     js("globalThis").issPassRadar = bridge
 
-    console.log("Kotlin/JS Pass Radar initialized.")
+    console.log("Kotlin/JS Pass Analysis initialized.")
 }
