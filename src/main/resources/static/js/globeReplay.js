@@ -297,6 +297,7 @@ export function createGlobeReplay({ onSelect, onLive }) {
 
     return {
         updateHistory,
-        isLive: () => mode === "live"
+        isLive: () => mode === "live",
+        returnToLive
     };
 }

@@ -326,6 +326,103 @@
             </div>
         </section>
 
+
+        <section class="cinematic-panel" aria-labelledby="cinematic-title">
+            <div class="cinematic-header">
+                <div>
+                    <p class="cinematic-eyebrow">
+                        06 / CINEMATIC CAMERA SYSTEM
+                    </p>
+                    <h2 id="cinematic-title">
+                        Orbital Cinematography
+                    </h2>
+                    <p>
+                        Experience Earth and the International Space Station
+                        through an automated cinematic camera tour.
+                    </p>
+                </div>
+
+                <span id="cinematic-status"
+                      data-active="false"
+                      role="status">
+                    STANDBY
+                </span>
+            </div>
+
+            <div class="cinematic-information">
+                <div class="cinematic-shot-number">
+                    <span>CAMERA SEQUENCE</span>
+                    <strong id="cinematic-index">01 / 04</strong>
+                </div>
+
+                <div class="cinematic-shot-information">
+                    <span>CURRENT SHOT</span>
+                    <h3 id="cinematic-shot">
+                        Ready for cinematic tour
+                    </h3>
+                    <p id="cinematic-description">
+                        Four cinematic camera sequences around Earth and the ISS
+                    </p>
+                </div>
+
+                <div class="cinematic-shot-timer">
+                    <span>SHOT DURATION</span>
+                    <strong id="cinematic-time">0.0 / 9.0 SEC</strong>
+                </div>
+            </div>
+
+            <div class="cinematic-body">
+                <div class="cinematic-progress-heading">
+                    <span>SEQUENCE PROGRESS</span>
+                    <span>LIVE CAMERA SYSTEM</span>
+                </div>
+
+                <div class="cinematic-progress-track"
+                     role="progressbar"
+                     aria-label="Current cinematic shot progress"
+                     aria-valuemin="0"
+                     aria-valuemax="100"
+                     aria-valuenow="0">
+                    <div id="cinematic-progress"></div>
+                </div>
+
+                <div class="cinematic-actions">
+                    <button id="cinematic-start" type="button">
+                        Start Cinematic Tour
+                    </button>
+                    <button id="cinematic-pause" type="button" disabled>
+                        Pause
+                    </button>
+                    <button id="cinematic-next" type="button" disabled>
+                        Next Shot
+                    </button>
+                    <button id="cinematic-exit" type="button" disabled>
+                        Exit Cinematic
+                    </button>
+                    <button id="cinematic-fullscreen" type="button">
+                        Fullscreen
+                    </button>
+
+                    <label for="cinematic-speed">
+                        CAMERA SPEED
+                        <select id="cinematic-speed">
+                            <option value="0.5">0.5×</option>
+                            <option value="1" selected>1×</option>
+                            <option value="1.5">1.5×</option>
+                            <option value="2">2×</option>
+                        </select>
+                    </label>
+                </div>
+
+                <p class="cinematic-note">
+                    The camera follows the latest reported ISS position.
+                    Shots are artistic visualizations and are not real
+                    spacecraft camera footage. Manual camera interaction
+                    exits cinematic mode.
+                </p>
+            </div>
+        </section>
+
         <footer class="globe-footer">
             <span>ISS LIVE TRACKER / INTERACTIVE 3D EARTH</span>
             <span>INDEPENDENT EDUCATIONAL PROJECT</span>
