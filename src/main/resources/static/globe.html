@@ -56,6 +56,32 @@
                 </div>
 
                 <div id="globe-canvas" class="globe-canvas">
+                    
+                <div id="observation-hud" class="observation-hud" hidden>
+                    <div class="observation-hud-top">
+                        <span>ISS / EARTH OBSERVATION</span>
+                        <span id="observation-hud-mode">NADIR VIEW</span>
+                    </div>
+                    <div class="observation-reticle" aria-hidden="true">
+                        <span class="observation-reticle-horizontal"></span>
+                        <span class="observation-reticle-vertical"></span>
+                    </div>
+                    <div class="observation-hud-bottom">
+                        <div>
+                            <span>POSITION</span>
+                            <strong id="observation-hud-position">--</strong>
+                        </div>
+                        <div>
+                            <span>ALTITUDE</span>
+                            <strong id="observation-hud-altitude">--</strong>
+                        </div>
+                        <div>
+                            <span>UTC</span>
+                            <strong id="observation-hud-time">--</strong>
+                        </div>
+                    </div>
+                </div>
+
                     <div id="globe-loading" class="globe-loading">
                         <span class="globe-loading-ring"></span>
                         INITIALIZING 3D EARTH
@@ -418,6 +444,84 @@
                     Shots are artistic visualizations and are not real
                     spacecraft camera footage. Manual camera interaction
                     exits cinematic mode.
+                </p>
+            </div>
+        </section>
+
+
+        <section class="observation-panel" aria-labelledby="observation-title">
+            <div class="observation-header">
+                <div>
+                    <p class="observation-eyebrow">
+                        07 / EARTH OBSERVATION SYSTEM
+                    </p>
+                    <h2 id="observation-title">
+                        View Earth From The ISS
+                    </h2>
+                    <p>
+                        Switch from orbital tracking to a simulated camera
+                        at the live position of the International Space Station.
+                    </p>
+                </div>
+                <strong id="observation-status" data-active="false" role="status">
+                    OBSERVATION STANDBY
+                </strong>
+            </div>
+
+            <div class="observation-metrics">
+                <div>
+                    <span>CAMERA MODE</span>
+                    <strong id="observation-mode">STANDBY</strong>
+                </div>
+                <div>
+                    <span>ISS LATITUDE</span>
+                    <strong id="observation-latitude">--</strong>
+                </div>
+                <div>
+                    <span>ISS LONGITUDE</span>
+                    <strong id="observation-longitude">--</strong>
+                </div>
+                <div>
+                    <span>ORBITAL ALTITUDE</span>
+                    <strong id="observation-altitude">--</strong>
+                </div>
+                <div>
+                    <span>HORIZON SURFACE DISTANCE</span>
+                    <strong id="observation-distance">--</strong>
+                </div>
+                <div>
+                    <span>LAST TELEMETRY UPDATE</span>
+                    <strong id="observation-updated">--</strong>
+                </div>
+            </div>
+
+            <div class="observation-controls">
+                <div class="observation-actions">
+                    <button id="observation-enter" type="button">
+                        Enter Earth Observation
+                    </button>
+                    <button id="observation-nadir" type="button" disabled aria-pressed="false">
+                        Nadir View
+                    </button>
+                    <button id="observation-horizon" type="button" disabled aria-pressed="false">
+                        Horizon View
+                    </button>
+                    <button id="observation-exit" type="button" disabled>
+                        Return To Orbit
+                    </button>
+                    <label for="observation-fov">
+                        CAMERA FIELD OF VIEW
+                        <select id="observation-fov" disabled>
+                            <option value="45">45° / Telephoto</option>
+                            <option value="65" selected>65° / Standard</option>
+                            <option value="80">80° / Wide Angle</option>
+                        </select>
+                    </label>
+                </div>
+                <p class="observation-note">
+                    This is a computer-generated Earth view using live ISS
+                    coordinates, not footage from a real ISS camera.
+                    Horizon direction is an illustrative eastward-facing view.
                 </p>
             </div>
         </section>
