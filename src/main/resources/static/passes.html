@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ISS recorded pass analysis and sky radar replay">
+    <title>ISS Pass Analyzer | ISS Live Tracker</title>
+    <link rel="stylesheet" href="/css/pass-analysis.css">
+</head>
+<body>
+    <header class="pa-header">
+        <a href="/" class="pa-brand">◎ ISS LIVE TRACKER</a>
+        <nav class="pa-nav" aria-label="Main navigation">
+            <a href="/">Tracking</a>
+            <a href="/control.html">Mission Control</a>
+            <a href="/globe.html">3D Earth</a>
+            <a href="/ground-station.html">Ground Station</a>
+            <a href="/passes.html" aria-current="page">Pass Analyzer</a>
+            <a href="/history.html">History</a>
+            <a href="/orbit.html">Orbit</a>
+        </nav>
+        <span id="pa-status" role="status">CONNECTING</span>
+    </header>
+
+    <main class="pa-main">
+        <section class="pa-hero">
+            <div>
+                <p class="pa-eyebrow">MISSION CONTROL / GROUND OBSERVATION</p>
+                <h1>ISS Pass <span>Analyzer.</span></h1>
+                <p class="pa-description">
+                    Analyze recorded ISS passes over a selected observation
+                    location. Explore sky tracks, maximum elevation, time
+                    profiles and historical radar playback.
+                </p>
+            </div>
+            <div class="pa-hero-tag">KOTLIN / ORBITAL ANALYTICS</div>
+        </section>
+
+        <section class="pa-panel">
+            <div class="pa-panel-heading">
+                <div>
+                    <span>01 / OBSERVATION PARAMETERS</span>
+                    <h2>Ground Location</h2>
+                </div>
+            </div>
+
+            <div class="pa-location-form">
+                <label>
+                    LOCATION
+                    <select id="pa-location">
+                        <option value="52.3676,4.9041">Amsterdam, Netherlands</option>
+                        <option value="52.3508,5.6207">Harderwijk, Netherlands</option>
+                        <option value="29.7604,-95.3698">Houston, United States</option>
+                        <option value="35.6762,139.6503">Tokyo, Japan</option>
+                        <option value="-33.8688,151.2093">Sydney, Australia</option>
+                        <option value="custom">Custom Coordinates</option>
+                    </select>
+                </label>
+                <label>
+                    LATITUDE
+                    <input id="pa-latitude" type="number" min="-90" max="90" step="0.0001" value="52.3676">
+                </label>
+                <label>
+                    LONGITUDE
+                    <input id="pa-longitude" type="number" min="-180" max="180" step="0.0001" value="4.9041">
+                </label>
+                <button id="pa-apply" type="button">Apply Location</button>
+            </div>
+        </section>
+
+        <section class="pa-metrics">
+            <article class="pa-metric">
+                <span>RECORDED PASSES</span>
+                <strong id="pa-pass-count">0</strong>
+                <p>Pass segments in server memory</p>
+            </article>
+            <article class="pa-metric">
+                <span>RECORDED OBSERVATIONS</span>
+                <strong id="pa-total-samples">0</strong>
+                <p>Live ISS measurements</p>
+            </article>
+            <article class="pa-metric">
+                <span>ABOVE HORIZON</span>
+                <strong id="pa-above-count">0</strong>
+                <p>Geometrically visible samples</p>
+            </article>
+            <article class="pa-metric">
+                <span>PEAK ELEVATION</span>
+                <strong id="pa-peak">--</strong>
+                <p>Maximum of selected pass</p>
+            </article>
+        </section>
+
+        <section class="pa-layout">
+            <article class="pa-panel">
+                <div class="pa-panel-heading">
+                    <div>
+                        <span>02 / INTERACTIVE SKY PROJECTION</span>
+                        <h2>Recorded Pass Radar</h2>
+                        <p>North-up azimuth and elevation visualization</p>
+                    </div>
+                    <div id="pa-mode" class="pa-mode">WAITING</div>
+                </div>
+
+                <div class="pa-radar-container">
+                    <svg id="pa-radar" viewBox="0 0 360 360" role="img" aria-label="Recorded ISS pass on polar sky radar">
+                        <circle cx="180" cy="180" r="145" class="pa-radar-background"/>
+                        <circle cx="180" cy="180" r="120" class="pa-radar-ring"/>
+                        <circle cx="180" cy="180" r="80" class="pa-radar-ring"/>
+                        <circle cx="180" cy="180" r="40" class="pa-radar-ring"/>
+                        <line x1="180" y1="60" x2="180" y2="300" class="pa-radar-grid"/>
+                        <line x1="60" y1="180" x2="300" y2="180" class="pa-radar-grid"/>
+                        <line x1="95" y1="95" x2="265" y2="265" class="pa-radar-grid"/>
+                        <line x1="265" y1="95" x2="95" y2="265" class="pa-radar-grid"/>
+                        <text x="180" y="22" text-anchor="middle" class="pa-cardinal">N</text>
+                        <text x="337" y="185" text-anchor="middle" class="pa-cardinal">E</text>
+                        <text x="180" y="350" text-anchor="middle" class="pa-cardinal">S</text>
+                        <text x="22" y="185" text-anchor="middle" class="pa-cardinal">W</text>
+                        <text x="186" y="65" class="pa-angle-label">0°</text>
+                        <text x="186" y="105" class="pa-angle-label">30°</text>
+                        <text x="186" y="145" class="pa-angle-label">60°</text>
+                        <text x="186" y="177" class="pa-angle-label">90°</text>
+                        <polyline id="pa-complete-track" fill="none"/>
+                        <polyline id="pa-progress-track" fill="none"/>
+                        <circle id="pa-position-dot" cx="180" cy="180" r="8" visibility="hidden"/>
+                        <circle cx="180" cy="180" r="3" class="pa-center"/>
+                    </svg>
+                    <p id="pa-radar-message">Waiting for recorded ISS pass data...</p>
+                </div>
+
+                <div class="pa-observation-values">
+                    <div><span>AZIMUTH</span><strong id="pa-azimuth">--</strong></div>
+                    <div><span>ELEVATION</span><strong id="pa-elevation">--</strong></div>
+                    <div><span>RANGE</span><strong id="pa-range">--</strong></div>
+                    <div><span>UTC TIME</span><strong id="pa-time">--</strong></div>
+                </div>
+            </article>
+
+            <aside class="pa-panel pa-pass-panel">
+                <div class="pa-panel-heading">
+                    <div>
+                        <span>03 / OBSERVED PASS SEGMENTS</span>
+                        <h2>Pass Records</h2>
+                        <p>Recorded line-of-sight intervals</p>
+                    </div>
+                    <button id="pa-refresh" type="button">Refresh</button>
+                </div>
+                <div id="pa-pass-list" class="pa-pass-list">
+                    <p class="pa-empty">Waiting for pass records...</p>
+                </div>
+                <div class="pa-sidebar-note">
+                    Only passes observed while this server has been collecting
+                    data are listed. No future pass predictions are generated.
+                </div>
+            </aside>
+        </section>
+
+        <section class="pa-panel pa-playback-panel">
+            <div class="pa-panel-heading">
+                <div>
+                    <span>04 / HISTORICAL OBSERVATION PLAYBACK</span>
+                    <h2>Pass Timeline</h2>
+                </div>
+                <span id="pa-playback-status" class="pa-playback-status">STANDBY</span>
+            </div>
+
+            <div class="pa-playback-content">
+                <div class="pa-timeline-labels">
+                    <span id="pa-start-time">--</span>
+                    <strong id="pa-current-time">--</strong>
+                    <span id="pa-end-time">--</span>
+                </div>
+
+                <input id="pa-slider" type="range" min="0" max="0" value="0" disabled aria-label="Select recorded pass observation">
+
+                <div class="pa-playback-buttons">
+                    <button id="pa-previous" type="button" disabled>Previous</button>
+                    <button id="pa-play" type="button" disabled>Play Replay</button>
+                    <button id="pa-next" type="button" disabled>Next</button>
+                    <button id="pa-restart" type="button" disabled>Restart</button>
+                    <label>
+                        SPEED
+                        <select id="pa-speed">
+                            <option value="1500">0.5×</option>
+                            <option value="750" selected>1×</option>
+                            <option value="375">2×</option>
+                            <option value="150">5×</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <section class="pa-panel pa-profile-panel">
+            <div class="pa-panel-heading">
+                <div>
+                    <span>05 / ORBITAL PASS ANALYTICS</span>
+                    <h2>Elevation Profile</h2>
+                    <p>Elevation angle of recorded observations, measured in degrees</p>
+                </div>
+                <span class="pa-chart-unit">0° — 90°</span>
+            </div>
+            <div class="pa-chart-area">
+                <svg id="pa-elevation-chart" viewBox="0 0 600 190" preserveAspectRatio="none" role="img" aria-label="Elevation profile of selected ISS pass"></svg>
+            </div>
+            <div class="pa-chart-footer">
+                <span id="pa-chart-start">--</span>
+                <span id="pa-chart-peak">MAX --</span>
+                <span id="pa-chart-end">--</span>
+            </div>
+        </section>
+
+        <footer class="pa-footer">
+            ISS LIVE TRACKER / RECORDED PASS ANALYSIS / KOTLIN + KTOR
+        </footer>
+    </main>
+
+    <script src="/js/passAnalysis.js"></script>
+</body>
+</html>
