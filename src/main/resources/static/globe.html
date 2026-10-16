@@ -249,6 +249,83 @@
             </div>
         </section>
 
+
+        <section class="globe-lighting-panel" aria-labelledby="globe-lighting-title">
+            <div class="globe-lighting-heading">
+                <div>
+                    <p class="globe-lighting-eyebrow">05 / PLANETARY ILLUMINATION</p>
+                    <h2 id="globe-lighting-title">Earth Day & Night Cycle</h2>
+                    <p>
+                        Explore the real-time solar position, illuminated hemisphere
+                        and nighttime city lights. Shift sunlight through a simulated day.
+                    </p>
+                </div>
+                <strong id="globe-lighting-mode" role="status" data-simulated="false">
+                    REAL-TIME SUN
+                </strong>
+            </div>
+
+            <div class="globe-lighting-stats">
+                <div>
+                    <span>SOLAR TIME</span>
+                    <strong id="globe-solar-time">--</strong>
+                </div>
+                <div>
+                    <span>SUBSOLAR LATITUDE</span>
+                    <strong id="globe-solar-latitude">--</strong>
+                </div>
+                <div>
+                    <span>SUBSOLAR LONGITUDE</span>
+                    <strong id="globe-solar-longitude">--</strong>
+                </div>
+                <div>
+                    <span>ISS GROUND LOCATION</span>
+                    <strong id="globe-solar-state">WAITING</strong>
+                </div>
+            </div>
+
+            <div class="globe-lighting-controls">
+                <div class="globe-lighting-buttons">
+                    <button id="globe-night-lights" type="button" aria-pressed="true">
+                        City Lights On
+                    </button>
+                    <button id="globe-terminator" type="button" aria-pressed="false">
+                        Terminator Off
+                    </button>
+                    <button id="globe-sun-marker" type="button" aria-pressed="false">
+                        Sun Marker Off
+                    </button>
+                    <button id="globe-day-cycle" type="button" aria-pressed="false">
+                        Play 24H Cycle
+                    </button>
+                    <button id="globe-sun-reset" type="button">
+                        Reset To Live UTC
+                    </button>
+                </div>
+
+                <div class="globe-time-controls">
+                    <div class="globe-time-heading">
+                        <span>SIMULATED SOLAR TIME OFFSET</span>
+                        <strong id="globe-time-offset">LIVE UTC</strong>
+                    </div>
+                    <input id="globe-time-slider" type="range"
+                           min="-12" max="12" step="0.5" value="0"
+                           aria-label="Simulated solar time offset in hours">
+                    <div class="globe-time-scale">
+                        <span>-12 HOURS</span>
+                        <span>REAL TIME</span>
+                        <span>+12 HOURS</span>
+                    </div>
+                </div>
+
+                <p class="globe-lighting-note">
+                    The 24-hour simulation changes the Sun's displayed position,
+                    not the actual ISS telemetry or recorded orbital path.
+                    Ground daylight is based on approximate solar geometry.
+                </p>
+            </div>
+        </section>
+
         <footer class="globe-footer">
             <span>ISS LIVE TRACKER / INTERACTIVE 3D EARTH</span>
             <span>INDEPENDENT EDUCATIONAL PROJECT</span>

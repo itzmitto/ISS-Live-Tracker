@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { createEarthLighting } from "./earthLighting.js";
 import { createIssModel } from "./issModel.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { createGlobeReplay } from "./globeReplay.js";
@@ -80,7 +81,7 @@ controls.addEventListener("start", () => {
     updateControls();
 });
 
-const ambient = new THREE.AmbientLight(0x8aaccb, 0.55);
+const ambient = new THREE.AmbientLight(0x8aaccb, 0.16);
 scene.add(ambient);
 
 const sunlight = new THREE.DirectionalLight(0xffffff, 3.1);
@@ -105,48 +106,7 @@ function toVector(latitude, longitude, radius = 1) {
     );
 }
 
-function updateSunlight() {
-    const julianDate = Date.now() / 86400000 + 2440587.5;
-    const days = julianDate - 2451545;
 
-    const meanAnomaly = radians(
-        357.529 + 0.98560028 * days
-    );
-
-    const meanLongitude = 280.459 + 0.98564736 * days;
-
-    const eclipticLongitude = radians(
-        meanLongitude +
-        1.915 * Math.sin(meanAnomaly) +
-        0.020 * Math.sin(2 * meanAnomaly)
-    );
-
-    const obliquity = radians(23.439 - 0.00000036 * days);
-
-    const rightAscension = Math.atan2(
-        Math.cos(obliquity) * Math.sin(eclipticLongitude),
-        Math.cos(eclipticLongitude)
-    );
-
-    const declination = Math.asin(
-        Math.sin(obliquity) * Math.sin(eclipticLongitude)
-    );
-
-    const siderealAngle = radians(
-        280.46061837 + 360.98564736629 * days
-    );
-
-    const subsolarLongitude = degrees(
-        rightAscension - siderealAngle
-    );
-
-    sunlight.position.copy(
-        toVector(degrees(declination), subsolarLongitude, 5)
-    );
-}
-
-updateSunlight();
-setInterval(updateSunlight, 60000);
 
 const textureLoader = new THREE.TextureLoader();
 
@@ -174,7 +134,7 @@ cloudTexture.colorSpace = THREE.SRGBColorSpace;
 
 const clouds = new THREE.Mesh(
     new THREE.SphereGeometry(1.012, 96, 64),
-    new THREE.MeshBasicMaterial({
+    new THREE.MeshLambertMaterial({
         map: cloudTexture,
         transparent: true,
         opacity: 0.28,
@@ -224,6 +184,13 @@ const atmosphere = new THREE.Mesh(
 );
 
 scene.add(atmosphere);
+
+const earthLighting = createEarthLighting({
+    scene,
+    sunlight,
+    ambient
+});
+
 
 function addStars() {
     const count = 2200;
@@ -536,6 +503,10 @@ function focusIss() {
 
 function updatePosition(position) {
     state.current = position;
+    earthLighting.setGroundPosition(
+        position.latitude,
+        position.longitude
+    );
 
     const orbitalRadius =
         1 + position.altitude / EARTH_RADIUS_KM;
@@ -861,6 +832,8 @@ function animate() {
     );
 
     clouds.rotation.y += 0.000015;
+
+    earthLighting.update(time);
 
     controls.update();
     renderer.render(scene, camera);
