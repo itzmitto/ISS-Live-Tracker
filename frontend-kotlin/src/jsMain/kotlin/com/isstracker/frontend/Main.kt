@@ -61,4 +61,7 @@ fun main() {
     js("globalThis").issPassRadar = bridge
 
     console.log("Kotlin/JS Pass Analysis initialized.")
+    PredictionDashboard.verifyGeometry()
+    PredictionDashboard.mount()
+
 }
