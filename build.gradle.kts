@@ -12,6 +12,7 @@ repositories {
 }
 
 dependencies {
+    implementation("uk.me.g4dpz:predict4java:1.2.3")
     implementation("io.ktor:ktor-server-core-jvm:3.3.1")
     implementation("io.ktor:ktor-server-netty-jvm:3.3.1")
     implementation("io.ktor:ktor-server-content-negotiation-jvm:3.3.1")
