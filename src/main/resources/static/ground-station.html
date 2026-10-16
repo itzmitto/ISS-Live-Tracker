@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ISS ground station radar with live azimuth and elevation">
+    <title>Ground Station | ISS Live Tracker</title>
+    <link rel="stylesheet" href="/css/ground-station.css">
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+        }
+    }
+    </script>
+</head>
+<body>
+    <header class="gs-header">
+        <a href="/" class="gs-brand">◎ ISS LIVE TRACKER</a>
+        <nav class="gs-nav" aria-label="Main navigation">
+            <a href="/">Tracking</a>
+            <a href="/control.html">Mission Control</a>
+            <a href="/globe.html">3D Earth</a>
+            <a href="/mission.html">Mission</a>
+            <a href="/statistics.html">Statistics</a>
+            <a href="/history.html">History</a>
+            <a href="/orbit.html">Orbit</a>
+            <a href="/timeline.html">Timeline</a>
+            <a href="/ground-station.html" aria-current="page">Ground Station</a>
+        </nav>
+    </header>
+
+    <main class="gs-main">
+        <section class="gs-intro">
+            <div>
+                <p class="gs-eyebrow">GROUND OPERATIONS / OBSERVATION SYSTEM</p>
+                <h1>Ground Station <span>Radar.</span></h1>
+                <p>
+                    Monitor the International Space Station from a selected
+                    location on Earth using live orbital measurements,
+                    horizon geometry and a three-dimensional sky radar.
+                </p>
+            </div>
+            <div id="gs-connection" class="gs-connection" role="status">
+                CONNECTING
+            </div>
+        </section>
+
+        <section class="gs-observer gs-panel">
+            <div class="gs-panel-heading">
+                <div>
+                    <span>01 / OBSERVATION LOCATION</span>
+                    <h2>Ground Observer</h2>
+                </div>
+                <span class="gs-small-tag">GEOGRAPHIC COORDINATES</span>
+            </div>
+            <div class="gs-observer-form">
+                <label>
+                    PRESET LOCATION
+                    <select id="gs-location">
+                        <option value="52.3676,4.9041">Amsterdam, Netherlands</option>
+                        <option value="29.7604,-95.3698">Houston, United States</option>
+                        <option value="35.6762,139.6503">Tokyo, Japan</option>
+                        <option value="-33.8688,151.2093">Sydney, Australia</option>
+                        <option value="custom">Custom Coordinates</option>
+                    </select>
+                </label>
+                <label>
+                    LATITUDE
+                    <input id="gs-latitude" type="number" min="-90" max="90"
+                           step="0.0001" value="52.3676">
+                </label>
+                <label>
+                    LONGITUDE
+                    <input id="gs-longitude" type="number" min="-180" max="180"
+                           step="0.0001" value="4.9041">
+                </label>
+                <button id="gs-apply" type="button">Apply Location</button>
+            </div>
+        </section>
+
+        <section class="gs-metrics" aria-label="ISS ground station telemetry">
+            <article class="gs-metric">
+                <span>AZIMUTH</span>
+                <strong id="gs-azimuth">--</strong>
+                <p>Direction clockwise from north</p>
+            </article>
+            <article class="gs-metric">
+                <span>ELEVATION</span>
+                <strong id="gs-elevation">--</strong>
+                <p>Angle above or below horizon</p>
+            </article>
+            <article class="gs-metric">
+                <span>SLANT RANGE</span>
+                <strong id="gs-range">--</strong>
+                <p>Direct distance to the ISS</p>
+            </article>
+            <article class="gs-metric">
+                <span>VISIBILITY</span>
+                <strong id="gs-visibility">WAITING</strong>
+                <p>Geometric line-of-sight status</p>
+            </article>
+        </section>
+
+        <section class="gs-layout">
+            <article class="gs-panel">
+                <div class="gs-panel-heading">
+                    <div>
+                        <span>02 / THREE-DIMENSIONAL SKY</span>
+                        <h2>Local Sky Observatory</h2>
+                        <p>Drag to rotate, scroll to zoom</p>
+                    </div>
+                    <span class="gs-small-tag">THREE.JS / WEBGL</span>
+                </div>
+                <div id="gs-three" class="gs-three">
+                    <div class="gs-three-info">LIVE OBSERVER / HORIZON REFERENCE</div>
+                </div>
+                <div class="gs-actions">
+                    <button id="gs-reset" type="button">Reset Camera</button>
+                    <button id="gs-rotate" type="button" aria-pressed="false">Auto Rotate Off</button>
+                </div>
+            </article>
+
+            <article class="gs-panel">
+                <div class="gs-panel-heading">
+                    <div>
+                        <span>03 / AZIMUTH & ELEVATION</span>
+                        <h2>Sky Radar</h2>
+                        <p>North-up polar projection</p>
+                    </div>
+                    <span class="gs-small-tag">LIVE TRACKING</span>
+                </div>
+                <div class="gs-radar-area">
+                    <svg id="gs-radar" viewBox="0 0 320 320" role="img" aria-label="Ground station polar sky radar">
+                        <circle cx="160" cy="160" r="135" class="gs-radar-outer"/>
+                        <circle cx="160" cy="160" r="120" class="gs-radar-ring"/>
+                        <circle cx="160" cy="160" r="80" class="gs-radar-ring"/>
+                        <circle cx="160" cy="160" r="40" class="gs-radar-ring"/>
+                        <line x1="160" y1="40" x2="160" y2="280" class="gs-radar-grid"/>
+                        <line x1="40" y1="160" x2="280" y2="160" class="gs-radar-grid"/>
+                        <line x1="75" y1="75" x2="245" y2="245" class="gs-radar-grid"/>
+                        <line x1="245" y1="75" x2="75" y2="245" class="gs-radar-grid"/>
+                        <text x="160" y="19" class="gs-radar-label" text-anchor="middle">N</text>
+                        <text x="301" y="164" class="gs-radar-label" text-anchor="middle">E</text>
+                        <text x="160" y="309" class="gs-radar-label" text-anchor="middle">S</text>
+                        <text x="19" y="164" class="gs-radar-label" text-anchor="middle">W</text>
+                        <text x="166" y="45" class="gs-radar-elevation">0°</text>
+                        <text x="166" y="84" class="gs-radar-elevation">30°</text>
+                        <text x="166" y="124" class="gs-radar-elevation">60°</text>
+                        <text x="166" y="155" class="gs-radar-elevation">90°</text>
+                        <line id="gs-sweep" x1="160" y1="160" x2="160" y2="40"/>
+                        <g id="gs-radar-track"></g>
+                        <circle id="gs-radar-dot" cx="160" cy="160" r="7"/>
+                        <circle id="gs-radar-center" cx="160" cy="160" r="3"/>
+                    </svg>
+                    <div id="gs-radar-message" class="gs-radar-message">
+                        Waiting for live ISS position...
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section class="gs-bottom">
+            <article class="gs-panel">
+                <div class="gs-panel-heading">
+                    <div>
+                        <span>04 / LINK GEOMETRY</span>
+                        <h2>Observation Details</h2>
+                    </div>
+                </div>
+                <div class="gs-detail"><span>Ground Distance</span><strong id="gs-ground-distance">--</strong></div>
+                <div class="gs-detail"><span>Horizon Surface Radius</span><strong id="gs-horizon-distance">--</strong></div>
+                <div class="gs-detail"><span>ISS Altitude</span><strong id="gs-altitude">--</strong></div>
+                <div class="gs-detail"><span>Recorded Positions</span><strong id="gs-samples">0</strong></div>
+                <div class="gs-detail"><span>Last Update</span><strong id="gs-updated">--</strong></div>
+            </article>
+            <article class="gs-panel gs-explainer">
+                <div class="gs-panel-heading">
+                    <div>
+                        <span>05 / RADAR INFORMATION</span>
+                        <h2>Understanding Visibility</h2>
+                    </div>
+                </div>
+                <div class="gs-explainer-content">
+                    <h3>Above the horizon</h3>
+                    <p>A positive elevation angle means the ISS is geometrically above the observer's horizon.</p>
+                    <h3>Below the horizon</h3>
+                    <p>A negative elevation angle means Earth blocks the direct line of sight to the ISS.</p>
+                    <h3>Seeing the ISS at night</h3>
+                    <p>Geometric visibility does not guarantee a visible sighting. Lighting, weather and local obstructions also matter.</p>
+                    <p class="gs-disclaimer">All readings are calculated from current ISS coordinates using a spherical Earth model. This is not a radio-tracking receiver or a future-pass prediction service.</p>
+                </div>
+            </article>
+        </section>
+
+        <footer class="gs-footer">
+            ISS LIVE TRACKER / GROUND STATION RADAR / KOTLIN + THREE.JS
+        </footer>
+    </main>
+
+    <script type="module" src="/js/groundStation.js"></script>
+</body>
+</html>
