@@ -1,8 +1,9 @@
-# Kotlin source files
-*.kt linguist-language=Kotlin linguist-detectable
-*.kts linguist-language=Kotlin linguist-detectable
+cat > .gitattributes <<'EOF'
+# Kotlin
+*.kt linguist-language=Kotlin
+*.kts linguist-language=Kotlin
 
-# Frontend source files
+# Frontend
 *.js linguist-language=JavaScript
 *.html linguist-language=HTML
 *.css linguist-language=CSS
@@ -10,17 +11,17 @@
 # Generated Tailwind CSS
 /src/main/resources/static/css/styles.css linguist-generated=true
 
-# Gradle wrappers
-/gradlew linguist-generated=true
-/gradlew.bat linguist-generated=true
-/gradle/wrapper/** linguist-generated=true
-
-# Generated and dependency files
+# Generated and dependencies
 /build/** linguist-generated=true
 /.gradle/** linguist-generated=true
 /node_modules/** linguist-vendored
 /dist/** linguist-generated=true
 /coverage/** linguist-generated=true
+
+# Gradle wrappers
+/gradlew linguist-generated=true
+/gradlew.bat linguist-generated=true
+/gradle/wrapper/** linguist-generated=true
 
 # Binary assets
 *.jar binary
@@ -32,3 +33,4 @@
 *.ico binary
 *.woff binary
 *.woff2 binary
+EOF
