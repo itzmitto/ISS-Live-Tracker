@@ -14,23 +14,22 @@
         }
     }
     </script>
+    <link rel="stylesheet" href="/css/orbit-theme.css">
 </head>
-<body class="globe-page">
+<body class="orbit-ui globe-page">
     <header class="globe-header">
         <a href="/" class="globe-brand">ISS LIVE TRACKER</a>
-        <nav class="globe-nav" aria-label="Main navigation">
-            <a href="/">Tracking</a>
-            <a href="/mission.html">Mission</a>
-            <a href="/statistics.html">Statistics</a>
-            <a href="/history.html">History</a>
-            <a href="/orbit.html">Orbit</a>
-            <a href="/timeline.html">Timeline</a>
-            <a href="/globe.html" aria-current="page">3D Earth</a>
-        </nav>
+        <nav class="orbit-nav" aria-label="Main navigation"><a href="/">Tracking</a>
+<a href="/mission.html">Mission</a>
+<a href="/statistics.html">Statistics</a>
+<a href="/history.html">History</a>
+<a href="/orbit.html">Orbital Analytics</a>
+<a href="/timeline.html">Timeline</a>
+<a href="/globe.html" aria-current="page">3D Earth</a></nav>
         <span id="globe-connection" role="status">CONNECTING</span>
     </header>
 
-    <main class="globe-main">
+    <main class="orbit-main globe-main">
         <section class="globe-intro">
             <div>
                 <p class="globe-eyebrow">ORBITAL EXPERIENCE / REAL-TIME VISUALIZATION</p>
@@ -430,5 +429,6 @@
     </main>
 
     <script type="module" src="/js/globe.js"></script>
+    <script src="/js/orbitShell.js"></script>
 </body>
 </html>

@@ -6,49 +6,28 @@
     <meta name="description" content="ISS mission information and live orbital telemetry">
     <title>ISS Mission Information</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/orbit-theme.css">
 </head>
-<body class="min-h-screen bg-[#edf4f9] text-[#173b59]">
+<body class="orbit-ui min-h-screen bg-[#edf4f9] text-[#173b59]">
     <header class="border-b border-[#d7e2eb] bg-white">
         <div class="mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-5 px-6 py-5">
             <a href="/" class="text-sm font-bold tracking-[0.16em] text-[#173b59]">
                 ISS LIVE TRACKER
             </a>
-            <nav class="flex flex-wrap items-center gap-6 text-xs font-semibold uppercase tracking-[0.1em]">
-                <a href="/" class="text-[#587388] hover:text-[#0a6ea8]">Live Tracking</a>
-                <a href="/mission.html" aria-current="page" class="border-b-2 border-[#0a6ea8] pb-2 text-[#0a6ea8]">Mission</a>
-            
-                <a href="/statistics.html" class="text-[#587388] hover:text-[#0a6ea8]">
-                    Statistics
-                </a>
-
-            
-                <a href="/history.html" class="text-[#587388] hover:text-[#0a6ea8]">
-                    History
-                </a>
-
-
-                <a href="/orbit.html" class="text-[#587388] hover:text-[#0a6ea8]">
-                    Orbital Analytics
-                </a>
-
-
-<a href="/timeline.html" class="text-[#587388] hover:text-[#0a6ea8]">
-    Timeline
-</a>
-
-
-<a href="/globe.html" class="text-[#587388] hover:text-[#0a6ea8]">
-    3D Earth
-</a>
-
-</nav>
+            <nav class="orbit-nav" aria-label="Main navigation"><a href="/">Tracking</a>
+<a href="/mission.html" aria-current="page">Mission</a>
+<a href="/statistics.html">Statistics</a>
+<a href="/history.html">History</a>
+<a href="/orbit.html">Orbital Analytics</a>
+<a href="/timeline.html">Timeline</a>
+<a href="/globe.html">3D Earth</a></nav>
             <span id="mission-link-status" class="text-xs font-semibold text-[#587388]">
                 CONNECTING
             </span>
         </div>
     </header>
 
-    <main class="mx-auto max-w-[1500px] px-6 py-10">
+    <main class="orbit-main mx-auto max-w-[1500px] px-6 py-10">
         <section class="border-b border-[#d7e2eb] pb-10">
             <p class="text-xs font-bold uppercase tracking-[0.22em] text-[#0a6ea8]">
                 SPACECRAFT / MISSION PROFILE
@@ -181,5 +160,6 @@
     </main>
 
     <script src="/js/mission.js"></script>
+    <script src="/js/orbitShell.js"></script>
 </body>
 </html>
