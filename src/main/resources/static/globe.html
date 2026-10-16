@@ -65,7 +65,7 @@
 
                 <div class="globe-stage-bottom">
                     <span>DRAG TO ROTATE · SCROLL TO ZOOM</span>
-                    <span>ISS MARKER NOT TO SCALE</span>
+                    <span>ISS MODEL / NOT TO SCALE</span>
                 </div>
             </section>
 
@@ -119,6 +119,15 @@
                         <button id="globe-trail" type="button" aria-pressed="true">
                             Trail On
                         </button>
+                        <button id="globe-inspect" type="button" aria-pressed="false">
+                            Inspect ISS
+                        </button>
+                        <button id="globe-closeup" type="button" aria-pressed="false">
+                            ISS Close-Up
+                        </button>
+                        <button id="globe-solar" type="button" aria-pressed="true">
+                            Solar Tracking On
+                        </button>
                         <button id="globe-reset" type="button" class="globe-reset-button">
                             Reset Camera
                         </button>
@@ -148,6 +157,35 @@
                         line-of-sight, not guaranteed ground visibility.
                     </p>
                 </section>
+            
+                <section class="globe-panel">
+                    <div class="globe-panel-heading">
+                        <span>04 / SPACECRAFT MODEL</span>
+                        <strong>ISS Structural Overview</strong>
+                    </div>
+                    <div class="globe-data-row">
+                        <span>SOLAR ARRAYS</span>
+                        <strong>8 PANELS</strong>
+                    </div>
+                    <div class="globe-data-row">
+                        <span>PRIMARY STRUCTURE</span>
+                        <strong>INTEGRATED TRUSS</strong>
+                    </div>
+                    <div class="globe-data-row">
+                        <span>MODULES</span>
+                        <strong>PRESSURIZED LABS</strong>
+                    </div>
+                    <div class="globe-data-row">
+                        <span>RENDERING</span>
+                        <strong>PROCEDURAL 3D</strong>
+                    </div>
+                    <p class="globe-panel-note">
+                        Stylized educational representation of the ISS.
+                        The model is deliberately enlarged for visibility
+                        and is not a dimensionally accurate replica.
+                    </p>
+                </section>
+
             </aside>
         </div>
 
@@ -207,6 +245,83 @@
                     Gold represents the replayed portion of the orbital trail.
                     Playback uses recorded observations, not predicted positions.
                     Speed controls sample playback rather than orbital time.
+                </p>
+            </div>
+        </section>
+
+
+        <section class="globe-lighting-panel" aria-labelledby="globe-lighting-title">
+            <div class="globe-lighting-heading">
+                <div>
+                    <p class="globe-lighting-eyebrow">05 / PLANETARY ILLUMINATION</p>
+                    <h2 id="globe-lighting-title">Earth Day & Night Cycle</h2>
+                    <p>
+                        Explore the real-time solar position, illuminated hemisphere
+                        and nighttime city lights. Shift sunlight through a simulated day.
+                    </p>
+                </div>
+                <strong id="globe-lighting-mode" role="status" data-simulated="false">
+                    REAL-TIME SUN
+                </strong>
+            </div>
+
+            <div class="globe-lighting-stats">
+                <div>
+                    <span>SOLAR TIME</span>
+                    <strong id="globe-solar-time">--</strong>
+                </div>
+                <div>
+                    <span>SUBSOLAR LATITUDE</span>
+                    <strong id="globe-solar-latitude">--</strong>
+                </div>
+                <div>
+                    <span>SUBSOLAR LONGITUDE</span>
+                    <strong id="globe-solar-longitude">--</strong>
+                </div>
+                <div>
+                    <span>ISS GROUND LOCATION</span>
+                    <strong id="globe-solar-state">WAITING</strong>
+                </div>
+            </div>
+
+            <div class="globe-lighting-controls">
+                <div class="globe-lighting-buttons">
+                    <button id="globe-night-lights" type="button" aria-pressed="true">
+                        City Lights On
+                    </button>
+                    <button id="globe-terminator" type="button" aria-pressed="false">
+                        Terminator Off
+                    </button>
+                    <button id="globe-sun-marker" type="button" aria-pressed="false">
+                        Sun Marker Off
+                    </button>
+                    <button id="globe-day-cycle" type="button" aria-pressed="false">
+                        Play 24H Cycle
+                    </button>
+                    <button id="globe-sun-reset" type="button">
+                        Reset To Live UTC
+                    </button>
+                </div>
+
+                <div class="globe-time-controls">
+                    <div class="globe-time-heading">
+                        <span>SIMULATED SOLAR TIME OFFSET</span>
+                        <strong id="globe-time-offset">LIVE UTC</strong>
+                    </div>
+                    <input id="globe-time-slider" type="range"
+                           min="-12" max="12" step="0.5" value="0"
+                           aria-label="Simulated solar time offset in hours">
+                    <div class="globe-time-scale">
+                        <span>-12 HOURS</span>
+                        <span>REAL TIME</span>
+                        <span>+12 HOURS</span>
+                    </div>
+                </div>
+
+                <p class="globe-lighting-note">
+                    The 24-hour simulation changes the Sun's displayed position,
+                    not the actual ISS telemetry or recorded orbital path.
+                    Ground daylight is based on approximate solar geometry.
                 </p>
             </div>
         </section>

@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import { createEarthLighting } from "./earthLighting.js";
+import { createIssModel } from "./issModel.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { createGlobeReplay } from "./globeReplay.js";
 
@@ -22,6 +24,7 @@ const fields = {
 
 const buttons = {
     follow: document.getElementById("globe-follow"),
+    inspect: document.getElementById("globe-inspect"),
     rotate: document.getElementById("globe-rotate"),
     coverage: document.getElementById("globe-coverage"),
     trail: document.getElementById("globe-trail"),
@@ -30,6 +33,7 @@ const buttons = {
 
 const state = {
     follow: true,
+    inspect: false,
     rotate: false,
     coverage: true,
     trail: true,
@@ -71,11 +75,13 @@ controls.maxDistance = 8;
 controls.autoRotateSpeed = 0.5;
 
 controls.addEventListener("start", () => {
+    if (state.inspect) return;
+
     state.follow = false;
     updateControls();
 });
 
-const ambient = new THREE.AmbientLight(0x8aaccb, 0.55);
+const ambient = new THREE.AmbientLight(0x8aaccb, 0.16);
 scene.add(ambient);
 
 const sunlight = new THREE.DirectionalLight(0xffffff, 3.1);
@@ -100,48 +106,7 @@ function toVector(latitude, longitude, radius = 1) {
     );
 }
 
-function updateSunlight() {
-    const julianDate = Date.now() / 86400000 + 2440587.5;
-    const days = julianDate - 2451545;
 
-    const meanAnomaly = radians(
-        357.529 + 0.98560028 * days
-    );
-
-    const meanLongitude = 280.459 + 0.98564736 * days;
-
-    const eclipticLongitude = radians(
-        meanLongitude +
-        1.915 * Math.sin(meanAnomaly) +
-        0.020 * Math.sin(2 * meanAnomaly)
-    );
-
-    const obliquity = radians(23.439 - 0.00000036 * days);
-
-    const rightAscension = Math.atan2(
-        Math.cos(obliquity) * Math.sin(eclipticLongitude),
-        Math.cos(eclipticLongitude)
-    );
-
-    const declination = Math.asin(
-        Math.sin(obliquity) * Math.sin(eclipticLongitude)
-    );
-
-    const siderealAngle = radians(
-        280.46061837 + 360.98564736629 * days
-    );
-
-    const subsolarLongitude = degrees(
-        rightAscension - siderealAngle
-    );
-
-    sunlight.position.copy(
-        toVector(degrees(declination), subsolarLongitude, 5)
-    );
-}
-
-updateSunlight();
-setInterval(updateSunlight, 60000);
 
 const textureLoader = new THREE.TextureLoader();
 
@@ -169,7 +134,7 @@ cloudTexture.colorSpace = THREE.SRGBColorSpace;
 
 const clouds = new THREE.Mesh(
     new THREE.SphereGeometry(1.012, 96, 64),
-    new THREE.MeshBasicMaterial({
+    new THREE.MeshLambertMaterial({
         map: cloudTexture,
         transparent: true,
         opacity: 0.28,
@@ -220,6 +185,13 @@ const atmosphere = new THREE.Mesh(
 
 scene.add(atmosphere);
 
+const earthLighting = createEarthLighting({
+    scene,
+    sunlight,
+    ambient
+});
+
+
 function addStars() {
     const count = 2200;
     const positions = new Float32Array(count * 3);
@@ -265,14 +237,8 @@ addStars();
 
 const satellite = new THREE.Group();
 
-satellite.add(
-    new THREE.Mesh(
-        new THREE.SphereGeometry(0.018, 16, 16),
-        new THREE.MeshBasicMaterial({
-            color: 0xffffff
-        })
-    )
-);
+const issModel = createIssModel();
+satellite.add(issModel.group);
 
 const satelliteHalo = new THREE.Sprite(
     new THREE.SpriteMaterial({
@@ -517,6 +483,9 @@ function number(value, digits = 2) {
 function focusIss() {
     if (!state.targetPosition) return;
 
+    state.inspect = false;
+    controls.minDistance = 1.35;
+    controls.maxDistance = 8;
     controls.autoRotate = false;
     state.rotate = false;
     state.follow = true;
@@ -534,6 +503,10 @@ function focusIss() {
 
 function updatePosition(position) {
     state.current = position;
+    earthLighting.setGroundPosition(
+        position.latitude,
+        position.longitude
+    );
 
     const orbitalRadius =
         1 + position.altitude / EARTH_RADIUS_KM;
@@ -545,6 +518,10 @@ function updatePosition(position) {
     );
 
     satellite.position.copy(state.targetPosition);
+    satellite.quaternion.setFromUnitVectors(
+        new THREE.Vector3(0, 0, 1),
+        state.targetPosition.clone().normalize()
+    );
     satellite.visible = true;
 
     const surfacePoint = toVector(
@@ -671,6 +648,15 @@ function updateControls() {
         String(state.follow)
     );
 
+    buttons.inspect.setAttribute(
+        "aria-pressed",
+        String(state.inspect)
+    );
+
+    buttons.inspect.textContent = state.inspect
+        ? "Exit Inspection"
+        : "Inspect ISS";
+
     buttons.rotate.setAttribute(
         "aria-pressed",
         String(state.rotate)
@@ -694,16 +680,52 @@ function updateControls() {
         ? "Trail On"
         : "Trail Off";
 
-    fields.cameraMode.textContent = state.follow
-        ? "FOLLOW ISS"
-        : state.rotate
-            ? "AUTO ROTATE"
-            : "FREE CAMERA";
+    fields.cameraMode.textContent = state.inspect
+        ? "ISS INSPECTION"
+        : state.follow
+            ? "FOLLOW ISS"
+            : state.rotate
+                ? "AUTO ROTATE"
+                : "FREE CAMERA";
 }
 
 buttons.follow.addEventListener("click", focusIss);
 
+buttons.inspect.addEventListener("click", () => {
+    if (state.inspect) {
+        focusIss();
+        return;
+    }
+
+    if (!state.targetPosition) return;
+
+    state.inspect = true;
+    state.follow = false;
+    state.rotate = false;
+
+    controls.autoRotate = false;
+    controls.minDistance = 0.15;
+    controls.maxDistance = 3;
+
+    const normal = state.targetPosition.clone().normalize();
+
+    controls.target.copy(state.targetPosition);
+
+    camera.position.copy(
+        state.targetPosition.clone().add(
+            normal.multiplyScalar(0.6)
+        )
+    );
+
+    controls.update();
+    updateControls();
+});
+
 buttons.rotate.addEventListener("click", () => {
+    if (state.inspect) {
+        focusIss();
+    }
+
     state.rotate = !state.rotate;
 
     if (state.rotate) {
@@ -729,7 +751,10 @@ buttons.trail.addEventListener("click", () => {
 
 buttons.reset.addEventListener("click", () => {
     state.follow = false;
+    state.inspect = false;
     state.rotate = false;
+    controls.minDistance = 1.35;
+    controls.maxDistance = 8;
 
     controls.autoRotate = false;
     controls.target.set(0, 0, 0);
@@ -775,7 +800,14 @@ new ResizeObserver(resize).observe(container);
 function animate() {
     requestAnimationFrame(animate);
 
-    if (
+    if (state.inspect && state.targetPosition) {
+        const displacement = state.targetPosition
+            .clone()
+            .sub(controls.target);
+
+        camera.position.add(displacement);
+        controls.target.copy(state.targetPosition);
+    } else if (
         state.follow &&
         state.targetPosition &&
         !state.firstPosition
@@ -790,6 +822,8 @@ function animate() {
 
     const time = performance.now() * 0.001;
 
+    issModel.update(time);
+
     satelliteHalo.material.opacity =
         0.25 + Math.sin(time * 3) * 0.12;
 
@@ -798,6 +832,8 @@ function animate() {
     );
 
     clouds.rotation.y += 0.000015;
+
+    earthLighting.update(time);
 
     controls.update();
     renderer.render(scene, camera);
