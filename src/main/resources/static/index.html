@@ -8,9 +8,10 @@
     <title>ISS Live Tracker</title>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="/css/orbit-theme.css">
 </head>
 
-<body class="min-h-screen bg-[#edf4f9] text-[#213c50]">
+<body class="orbit-ui min-h-screen bg-[#edf4f9] text-[#213c50]">
     <div class="min-h-screen">
 
         <header class="border-b border-[#cfdee9] bg-[#ffffff]">
@@ -69,40 +70,16 @@
             </div>
         </header>
 
-    <nav class="border-b border-[#d7e2eb] bg-white">
-        <div class="mx-auto flex max-w-[1700px] items-center gap-8 px-8 py-4 text-xs font-semibold uppercase tracking-[0.1em]">
-            <a href="/" aria-current="page" class="text-[#0a6ea8]">Live Tracking</a>
-            <a href="/mission.html" class="text-[#587388] hover:text-[#0a6ea8]">Mission Information</a>
-        </div>
-
-                <a href="/statistics.html" class="text-[#587388] hover:text-[#0a6ea8]">
-                    Statistics
-                </a>
+    <nav class="orbit-nav" aria-label="Main navigation"><a href="/" aria-current="page">Tracking</a>
+<a href="/mission.html">Mission</a>
+<a href="/statistics.html">Statistics</a>
+<a href="/history.html">History</a>
+<a href="/orbit.html">Orbital Analytics</a>
+<a href="/timeline.html">Timeline</a>
+<a href="/globe.html">3D Earth</a></nav>
 
 
-                <a href="/history.html" class="text-[#587388] hover:text-[#0a6ea8]">
-                    History
-                </a>
-
-
-                <a href="/orbit.html" class="text-[#587388] hover:text-[#0a6ea8]">
-                    Orbital Analytics
-                </a>
-
-
-<a href="/timeline.html" class="text-[#587388] hover:text-[#0a6ea8]">
-    Timeline
-</a>
-
-
-<a href="/globe.html" class="text-[#587388] hover:text-[#0a6ea8]">
-    3D Earth
-</a>
-
-</nav>
-
-
-        <main class="mx-auto max-w-[1700px] px-8 py-7">
+        <main class="orbit-main mx-auto max-w-[1700px] px-8 py-7">
 
             <section
                 class="mb-6 flex flex-col justify-between gap-5 border-b border-[#d2e0e9] pb-6 lg:flex-row lg:items-end">
@@ -631,6 +608,7 @@
     <script src="/js/groundCoverage.js"></script>
 <script src="/js/tracker.js"></script>
 <script src="/js/trackingControls.js"></script>
+    <script src="/js/orbitShell.js"></script>
 </body>
 
 </html>
