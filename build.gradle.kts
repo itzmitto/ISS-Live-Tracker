@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "2.2.20"
+    kotlin("multiplatform") version "2.2.20" apply false
     kotlin("plugin.serialization") version "2.2.20"
     application
 }
@@ -35,4 +36,14 @@ kotlin {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+
+tasks.named<Copy>("processResources") {
+    dependsOn(":frontend-kotlin:jsBrowserProductionWebpack")
+
+    from("frontend-kotlin/build/kotlin-webpack/js/productionExecutable") {
+        include("passAnalysisKotlin.js")
+        into("static/js")
+    }
 }

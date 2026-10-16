@@ -1,4 +1,3 @@
-cat > .gitattributes <<'EOF'
 # Kotlin
 *.kt linguist-language=Kotlin
 *.kts linguist-language=Kotlin
@@ -33,4 +32,3 @@ cat > .gitattributes <<'EOF'
 *.ico binary
 *.woff binary
 *.woff2 binary
-EOF

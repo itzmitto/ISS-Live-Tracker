@@ -8,3 +8,6 @@ dist/
 .env
 .DS_Store
 .vscode/
+/kotlin-js-store/
+/frontend-kotlin/build/
+/frontend-kotlin/.gradle/
