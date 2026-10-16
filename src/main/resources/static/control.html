@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Advanced ISS Mission Control Dashboard">
+    <title>Mission Control | ISS Live Tracker</title>
+    <link rel="stylesheet" href="/css/mission-control.css">
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+        }
+    }
+    </script>
+</head>
+<body class="mc-page">
+    <header class="mc-topbar">
+        <a href="/" class="mc-brand">
+            <span class="mc-brand-icon">◎</span>
+            <span>
+                <strong>ISS TRACKER</strong>
+                <small>ORBITAL MONITORING PLATFORM</small>
+            </span>
+        </a>
+        <nav class="mc-nav" aria-label="Main navigation">
+            <a href="/">Tracking</a>
+            <a href="/control.html" aria-current="page">Mission Control</a>
+            <a href="/globe.html">3D Earth</a>
+            <a href="/mission.html">Mission</a>
+            <a href="/statistics.html">Statistics</a>
+            <a href="/history.html">History</a>
+            <a href="/orbit.html">Orbit</a>
+            <a href="/timeline.html">Timeline</a>
+        </nav>
+        <div class="mc-topbar-right">
+            <span class="mc-live-dot"></span>
+            <span id="mc-connection">CONNECTING</span>
+        </div>
+    </header>
+
+    <main class="mc-container">
+        <section class="mc-hero">
+            <div>
+                <p class="mc-eyebrow">MISSION OPERATIONS / REAL-TIME ORBITAL DATA</p>
+                <h1>Mission Control<span>.</span></h1>
+                <p class="mc-hero-description">
+                    A real-time overview of the International Space Station,
+                    with live telemetry, orbital visualization and mission analytics.
+                </p>
+            </div>
+            <div class="mc-hero-actions">
+                <div class="mc-clock">
+                    <span>CURRENT UTC TIME</span>
+                    <strong id="mc-clock">--:--:--</strong>
+                    <small id="mc-date">--</small>
+                </div>
+                <button id="mc-refresh" type="button">Refresh Data ↗</button>
+            </div>
+        </section>
+
+        <section class="mc-stats" aria-label="Live ISS telemetry">
+            <article class="mc-stat">
+                <div class="mc-stat-heading">
+                    <span>LATITUDE</span>
+                    <span class="mc-stat-symbol">↗</span>
+                </div>
+                <strong id="mc-latitude">--</strong>
+                <p>Current geographic latitude</p>
+                <div class="mc-stat-footer">
+                    <span>POSITION / NORTH-SOUTH</span>
+                    <span>LIVE</span>
+                </div>
+            </article>
+            <article class="mc-stat">
+                <div class="mc-stat-heading">
+                    <span>LONGITUDE</span>
+                    <span class="mc-stat-symbol">◎</span>
+                </div>
+                <strong id="mc-longitude">--</strong>
+                <p>Current geographic longitude</p>
+                <div class="mc-stat-footer">
+                    <span>POSITION / EAST-WEST</span>
+                    <span>LIVE</span>
+                </div>
+            </article>
+            <article class="mc-stat">
+                <div class="mc-stat-heading">
+                    <span>ORBITAL ALTITUDE</span>
+                    <span class="mc-stat-symbol">↑</span>
+                </div>
+                <strong id="mc-altitude">--</strong>
+                <p>Kilometers above Earth's surface</p>
+                <div class="mc-stat-footer">
+                    <span>ALTITUDE / KILOMETERS</span>
+                    <span>LIVE</span>
+                </div>
+            </article>
+            <article class="mc-stat">
+                <div class="mc-stat-heading">
+                    <span>ORBITAL VELOCITY</span>
+                    <span class="mc-stat-symbol">➝</span>
+                </div>
+                <strong id="mc-velocity">--</strong>
+                <p>Current spacecraft velocity</p>
+                <div class="mc-stat-footer">
+                    <span>VELOCITY / KM/H</span>
+                    <span>LIVE</span>
+                </div>
+            </article>
+        </section>
+
+        <section class="mc-dashboard">
+            <div class="mc-primary">
+                <article class="mc-panel mc-earth-panel">
+                    <div class="mc-panel-heading">
+                        <div>
+                            <span class="mc-panel-kicker">01 / GLOBAL POSITIONING</span>
+                            <h2>Live Orbital Visualization</h2>
+                            <p>Interactive Earth tracking the current ISS position</p>
+                        </div>
+                        <span class="mc-panel-tag">3D ENGINE ACTIVE</span>
+                    </div>
+
+                    <div id="mc-earth-scene" class="mc-earth-scene">
+                        <div class="mc-scene-top">
+                            <span>EARTH / ORBITAL REFERENCE</span>
+                            <span>INTERACTIVE 3D</span>
+                        </div>
+                        <div id="mc-earth-loading" class="mc-earth-loading">
+                            Initializing Earth visualization...
+                        </div>
+                        <div class="mc-scene-bottom">
+                            <div>
+                                <span>TRACKED OBJECT</span>
+                                <strong>ISS / NORAD 25544</strong>
+                            </div>
+                            <div>
+                                <span>OBSERVATIONS</span>
+                                <strong id="mc-scene-points">0 POINTS</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mc-map-controls">
+                        <button id="mc-follow" type="button" aria-pressed="true">Follow ISS</button>
+                        <button id="mc-rotate" type="button" aria-pressed="false">Auto Rotate</button>
+                        <button id="mc-trail" type="button" aria-pressed="true">Show Trail</button>
+                        <button id="mc-reset" type="button">Reset Camera</button>
+                    </div>
+                </article>
+
+                <div class="mc-charts">
+                    <article class="mc-panel mc-chart-panel">
+                        <div class="mc-panel-heading">
+                            <div>
+                                <span class="mc-panel-kicker">02 / TELEMETRY ANALYTICS</span>
+                                <h2>Altitude History</h2>
+                                <p>Recorded altitude measurements</p>
+                            </div>
+                            <span class="mc-chart-unit">KM</span>
+                        </div>
+                        <div class="mc-chart-summary">
+                            <strong id="mc-altitude-average">--</strong>
+                            <span>AVERAGE ALTITUDE</span>
+                        </div>
+                        <div class="mc-chart">
+                            <svg id="mc-altitude-chart" viewBox="0 0 500 170" preserveAspectRatio="none" role="img" aria-label="Historical ISS altitude"></svg>
+                        </div>
+                        <div class="mc-chart-footer">
+                            <span id="mc-altitude-min">MIN --</span>
+                            <span id="mc-altitude-max">MAX --</span>
+                        </div>
+                    </article>
+
+                    <article class="mc-panel mc-chart-panel">
+                        <div class="mc-panel-heading">
+                            <div>
+                                <span class="mc-panel-kicker">03 / TELEMETRY ANALYTICS</span>
+                                <h2>Velocity History</h2>
+                                <p>Recorded orbital speed measurements</p>
+                            </div>
+                            <span class="mc-chart-unit">KM/H</span>
+                        </div>
+                        <div class="mc-chart-summary">
+                            <strong id="mc-velocity-average">--</strong>
+                            <span>AVERAGE VELOCITY</span>
+                        </div>
+                        <div class="mc-chart">
+                            <svg id="mc-velocity-chart" viewBox="0 0 500 170" preserveAspectRatio="none" role="img" aria-label="Historical ISS velocity"></svg>
+                        </div>
+                        <div class="mc-chart-footer">
+                            <span id="mc-velocity-min">MIN --</span>
+                            <span id="mc-velocity-max">MAX --</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <aside class="mc-sidebar">
+                <article class="mc-panel">
+                    <div class="mc-panel-heading">
+                        <div>
+                            <span class="mc-panel-kicker">04 / SYSTEM STATUS</span>
+                            <h2>Telemetry Systems</h2>
+                        </div>
+                    </div>
+                    <div class="mc-system-list">
+                        <div class="mc-system-row">
+                            <span>ISS Data Feed</span>
+                            <strong id="mc-feed-status">CONNECTING</strong>
+                        </div>
+                        <div class="mc-system-row">
+                            <span>Data Freshness</span>
+                            <strong id="mc-freshness">--</strong>
+                        </div>
+                        <div class="mc-system-row">
+                            <span>Last Update</span>
+                            <strong id="mc-last-update">--</strong>
+                        </div>
+                        <div class="mc-system-row">
+                            <span>ISS Visibility</span>
+                            <strong id="mc-visibility">--</strong>
+                        </div>
+                        <div class="mc-system-row">
+                            <span>Footprint Diameter</span>
+                            <strong id="mc-footprint">--</strong>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="mc-panel">
+                    <div class="mc-panel-heading">
+                        <div>
+                            <span class="mc-panel-kicker">05 / ORBITAL MECHANICS</span>
+                            <h2>Orbit Parameters</h2>
+                            <p>Approximate circular-orbit estimates</p>
+                        </div>
+                    </div>
+                    <div class="mc-system-list">
+                        <div class="mc-system-row">
+                            <span>Orbital Period</span>
+                            <strong id="mc-orbit-period">--</strong>
+                        </div>
+                        <div class="mc-system-row">
+                            <span>Orbits Per Day</span>
+                            <strong id="mc-orbits-day">--</strong>
+                        </div>
+                        <div class="mc-system-row">
+                            <span>Orbital Radius</span>
+                            <strong id="mc-orbit-radius">--</strong>
+                        </div>
+                        <div class="mc-system-row">
+                            <span>Horizon Distance</span>
+                            <strong id="mc-horizon">--</strong>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="mc-panel mc-session">
+                    <div class="mc-panel-heading">
+                        <div>
+                            <span class="mc-panel-kicker">06 / OBSERVATION SESSION</span>
+                            <h2>Tracking Statistics</h2>
+                        </div>
+                    </div>
+                    <div class="mc-session-value">
+                        <span>RECORDED OBSERVATIONS</span>
+                        <strong id="mc-samples">0</strong>
+                    </div>
+                    <div class="mc-system-list">
+                        <div class="mc-system-row">
+                            <span>Tracked Duration</span>
+                            <strong id="mc-duration">00:00:00</strong>
+                        </div>
+                        <div class="mc-system-row">
+                            <span>Ground Distance</span>
+                            <strong id="mc-distance">--</strong>
+                        </div>
+                    </div>
+                </article>
+            </aside>
+        </section>
+
+        <section class="mc-panel mc-history">
+            <div class="mc-panel-heading">
+                <div>
+                    <span class="mc-panel-kicker">07 / RECENT OBSERVATIONS</span>
+                    <h2>Telemetry Log</h2>
+                    <p>Most recent recorded ISS positions</p>
+                </div>
+                <a href="/history.html" class="mc-history-link">View Full History ↗</a>
+            </div>
+            <div class="mc-table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>UTC TIME</th>
+                            <th>LATITUDE</th>
+                            <th>LONGITUDE</th>
+                            <th>ALTITUDE</th>
+                            <th>VELOCITY</th>
+                            <th>VISIBILITY</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mc-history-body">
+                        <tr><td colspan="6" class="mc-empty">Waiting for live telemetry...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer class="mc-footer">
+            <span>ISS LIVE TRACKER / ADVANCED MISSION CONTROL</span>
+            <span>INDEPENDENT EDUCATIONAL PROJECT · NOT AN OFFICIAL SPACE AGENCY SERVICE</span>
+        </footer>
+    </main>
+
+    <script type="module" src="/js/missionControl.js"></script>
+</body>
+</html>
