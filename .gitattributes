@@ -1,21 +1,31 @@
 # Kotlin
-*.kt linguist-language=Kotlin
-*.kts linguist-language=Kotlin
+*.kt linguist-language=Kotlin linguist-detectable=true
+*.kts linguist-language=Kotlin linguist-detectable=true
 
-# Frontend
-*.js linguist-language=JavaScript
-*.html linguist-language=HTML
-*.css linguist-language=CSS
+# Frontend uitsluiten
+*.js linguist-detectable=false
+*.jsx linguist-detectable=false
+*.ts linguist-detectable=false
+*.tsx linguist-detectable=false
+*.html linguist-detectable=false
+*.css linguist-detectable=false
+*.scss linguist-detectable=false
 
-# Generated Tailwind CSS
-/src/main/resources/static/css/styles.css linguist-generated=true
+# Configuratie uitsluiten
+*.json linguist-detectable=false
+*.xml linguist-detectable=false
+*.yaml linguist-detectable=false
+*.yml linguist-detectable=false
+*.toml linguist-detectable=false
+*.sh linguist-detectable=false
 
-# Generated and dependencies
+# Generated en dependencies
 /build/** linguist-generated=true
 /.gradle/** linguist-generated=true
 /node_modules/** linguist-vendored
 /dist/** linguist-generated=true
 /coverage/** linguist-generated=true
+/src/main/resources/static/css/styles.css linguist-generated=true
 
 # Gradle wrappers
 /gradlew linguist-generated=true
