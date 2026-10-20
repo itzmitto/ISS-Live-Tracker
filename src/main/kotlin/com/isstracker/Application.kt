@@ -1,4 +1,5 @@
 package com.isstracker
+import com.isstracker.routes.visibilityPhaseRoutes
 import com.isstracker.routes.headingRoutes
 import com.isstracker.routes.latitudeBandRoutes
 import com.isstracker.routes.equatorCrossingRoutes
@@ -42,6 +43,7 @@ fun main() {
 
         routing {
             issRoutes(issService)
+            visibilityPhaseRoutes(issService)
             headingRoutes(issService)
             latitudeBandRoutes(issService)
             equatorCrossingRoutes(issService)
